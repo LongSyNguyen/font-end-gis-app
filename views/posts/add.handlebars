@@ -1,0 +1,14 @@
+<div class="card card-body">
+    <h3>Tạo bài viết mới</h3>
+    <form action="/posts" method="post">
+        <div class="from-group">
+            <label for="title">Tiêu đề</label>
+            <input type="text" class="form-control" name="title" value="{{title}}">
+        </div>
+        <div class="from-group">
+            <label for="text">Tiêu đề</label>
+            <textarea name="text" class="form-control" required cols="30" rows="10">{{text}}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Tạo Post Mới</button>
+    </form>
+</div>
