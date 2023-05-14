@@ -1,0 +1,50 @@
+.mapnote-container {
+  position: absolute;
+  width: 200px;
+  height: 100px;
+  top: 7%;
+  right: 1rem;
+  z-index: 1000;
+  font-size: 1rem !important;
+  box-sizing: border-box;
+}
+
+.accordin-header {
+  color: #333333 !important;
+  padding: 0 !important;
+  align-items: center;
+  display: flex;
+  span {
+    color: #333333 !important;
+    font-size: 1rem;
+  }
+  button {
+    &:after {
+      color: #333333 !important;
+    }
+  }
+  .accordion-button:not(.collapsed) {
+    color: #333333;
+  }
+}
+
+.accordin-icon {
+  color: #333333 !important;
+  margin-right: 8px;
+}
+
+@media (max-width: 800px) {
+  .mapnote-container {
+    width: 150px;
+    height: 50px;
+  }
+
+  .mapnote-container {
+    font-size: 0.7rem !important;
+  }
+  .accordin-header {
+    span {
+      font-size: 0.8rem;
+    }
+  }
+}

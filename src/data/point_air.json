@@ -1,0 +1,524 @@
+[
+    {
+        "_id": {
+          "$oid": "642a59f92a65006dc4689f29"
+        },
+        "location": {
+          "address": "Ha Tay",
+          "latitude": 14.29597,
+          "longitude": 108.11915
+        }
+},{
+        "_id": {
+          "$oid": "642a59f92a65006dc4689f30"
+        },
+        "location": {
+          "address": "Bac Ninh",
+          "latitude": 21.178177,
+          "longitude": 106.071026
+        }
+},{
+    "_id": {
+      "$oid": "642a59f92a65006dc4689f31"
+    },
+    "location": {
+      "address": "Ha Nam",
+      "latitude": 20.5416660474127,
+      "longitude": 105.917762900935
+    },
+    "date": {
+      "$date": "2018-12-03T17:00:00.000Z"
+    },
+    "wind_degree": 28.8,
+    "humidity": 66.5,
+    "wind_speed": 0.59,
+    "wind_direction": "ĐB",
+    "pressure": 100.4,
+    "wind_dust": 283,
+    "sulfur_dioxide": 74,
+    "carbon_monoxide": 3000,
+    "nito_dioxit": 52,
+    "equivalent_noise": 68.6,
+    "extreme_noise": 83.4,
+    "__v": 0
+  },{
+    "_id": {
+      "$oid": "642a5a84b77cb5936c77737e"
+    },
+    "location": {
+      "address": "Ha Nam",
+      "latitude": 20.5473290725038,
+      "longitude": 105.912212212406
+    },
+    "date": {
+      "$date": "2018-12-03T17:00:00.000Z"
+    },
+    "wind_degree": 30,
+    "humidity": 66.3,
+    "wind_speed": 0.58,
+    "wind_direction": "ĐB",
+    "pressure": 100.4,
+    "wind_dust": 246,
+    "sulfur_dioxide": 68,
+    "carbon_monoxide": 3000,
+    "nito_dioxit": 45,
+    "equivalent_noise": 65.6,
+    "extreme_noise": 81.4,
+    "__v": 0
+  },{
+    "_id": {
+      "$oid": "642a5b6855ba67307372b89b"
+    },
+    "location": {
+      "address": "Ha Nam",
+      "latitude": 20.4931170346516,
+      "longitude": 106.006838039915
+    },
+    "date": {
+      "$date": "2018-12-06T17:00:00.000Z"
+    },
+    "wind_degree": 28.1,
+    "humidity": 70,
+    "wind_speed": 0.45,
+    "wind_direction": "ĐB",
+    "pressure": 100.7,
+    "wind_dust": 266,
+    "sulfur_dioxide": 64,
+    "carbon_monoxide": 3000,
+    "nito_dioxit": 42,
+    "equivalent_noise": 66.7,
+    "extreme_noise": 79.4,
+    "__v": 0
+  },{
+    "_id": {
+      "$oid": "642a5bc1467beecf4458605b"
+    },
+    "location": {
+      "address": "Ha Nam",
+      "latitude": 20.4165349252066,
+      "longitude": 106.006684560799
+    },
+    "date": {
+      "$date": "2018-12-06T17:00:00.000Z"
+    },
+    "wind_degree": 28,
+    "humidity": 70.1,
+    "wind_speed": 0.46,
+    "wind_direction": "ĐB",
+    "pressure": 100.7,
+    "wind_dust": 271,
+    "sulfur_dioxide": 52,
+    "carbon_monoxide": 3000,
+    "nito_dioxit": 28,
+    "equivalent_noise": 64.1,
+    "extreme_noise": 83.7,
+    "__v": 0
+  },{
+    "_id": {
+      "$oid": "642a5c11b88289c8b8724a97"
+    },
+    "location": {
+      "address": "Ha Nam",
+      "latitude": 20.4723173545546,
+      "longitude": 106.154196612927
+    },
+    "date": {
+      "$date": "2018-12-06T17:00:00.000Z"
+    },
+    "wind_degree": 19.7,
+    "humidity": 72.5,
+    "wind_speed": 0.36,
+    "wind_direction": "ĐB",
+    "pressure": 100.7,
+    "wind_dust": 244,
+    "sulfur_dioxide": 45,
+    "carbon_monoxide": 3000,
+    "nito_dioxit": 23,
+    "equivalent_noise": 64.6,
+    "extreme_noise": 78.6,
+    "__v": 0
+  },{
+    "_id": {
+      "$oid": "642a5d30405d7b4025c6ea3b"
+    },
+    "location": {
+      "address": "Ha Nam",
+      "latitude": 20.5614732028651,
+      "longitude": 106.036330209233
+    },
+    "date": {
+      "$date": "2018-12-16T17:00:00.000Z"
+    },
+    "wind_degree": 15.3,
+    "humidity": 72.6,
+    "wind_speed": 0.37,
+    "wind_direction": "ĐB",
+    "pressure": 100.5,
+    "wind_dust": 365,
+    "sulfur_dioxide": 51,
+    "carbon_monoxide": 3000,
+    "nito_dioxit": 30,
+    "equivalent_noise": 67.4,
+    "extreme_noise": 89.7,
+    "__v": 0
+  },{
+    "_id": {
+      "$oid": "642a5ed380407b8f3306ac51"
+    },
+    "location": {
+      "address": "Ha Nam",
+      "latitude": 20.5046403344143,
+      "longitude": 105.887753962928
+    },
+    "date": {
+      "$date": "2018-12-02T17:00:00.000Z"
+    },
+    "wind_degree": 26.3,
+    "humidity": 67.2,
+    "wind_speed": 0.46,
+    "wind_direction": "ĐB",
+    "pressure": 100.6,
+    "wind_dust": 281,
+    "sulfur_dioxide": 65,
+    "carbon_monoxide": 3000,
+    "nito_dioxit": 42,
+    "equivalent_noise": 66.3,
+    "extreme_noise": 79.7,
+    "__v": 0
+  },{
+    "_id": {
+      "$oid": "642a5f3b06bc6e2e9fa52e2a"
+    },
+    "location": {
+      "address": "Ha Nam",
+      "latitude": 20.5796580162477,
+      "longitude": 105.871093655258
+    },
+    "date": {
+      "$date": "2018-12-17T17:00:00.000Z"
+    },
+    "wind_degree": 19.8,
+    "humidity": 71.6,
+    "wind_speed": 0.39,
+    "wind_direction": "ĐB",
+    "pressure": 100.4,
+    "wind_dust": 279,
+    "sulfur_dioxide": 64,
+    "carbon_monoxide": 3000,
+    "nito_dioxit": 42,
+    "equivalent_noise": 68.4,
+    "extreme_noise": 86.1,
+    "__v": 0
+  },{
+    "_id": {
+      "$oid": "642a5fc773cc83ad435eff23"
+    },
+    "location": {
+      "address": "Ha Nam",
+      "latitude": 20.5535955368351,
+      "longitude": 105.816801512929
+    },
+    "date": {
+      "$date": "2018-12-17T17:00:00.000Z"
+    },
+    "wind_degree": 22.4,
+    "humidity": 70.8,
+    "wind_speed": 0.48,
+    "wind_direction": "ĐB",
+    "pressure": 100.4,
+    "wind_dust": 427,
+    "sulfur_dioxide": 70,
+    "carbon_monoxide": 3000,
+    "nito_dioxit": 47,
+    "equivalent_noise": 67.3,
+    "extreme_noise": 89.5,
+    "__v": 0
+  },{
+    "_id": {
+      "$oid": "642a60eed047bce68d4f399d"
+    },
+    "location": {
+      "address": "Ha Nam",
+      "latitude": 20.642575477447,
+      "longitude": 105.987781939483
+    },
+    "date": {
+      "$date": "2018-12-04T17:00:00.000Z"
+    },
+    "wind_degree": 28.6,
+    "humidity": 67.8,
+    "wind_speed": 0.51,
+    "wind_direction": "ĐB",
+    "pressure": 101.2,
+    "wind_dust": 382,
+    "sulfur_dioxide": 82,
+    "carbon_monoxide": 3000,
+    "nito_dioxit": 62,
+    "equivalent_noise": 68.6,
+    "extreme_noise": 89.6,
+    "__v": 0
+  },{
+    "_id": {
+      "$oid": "642a6179a62ed51b28308b52"
+    },
+    "location": {
+      "address": "Ha Nam",
+      "latitude": 20.4620579917229,
+      "longitude": 106.080609976458
+    },
+    "date": {
+      "$date": "2018-12-06T17:00:00.000Z"
+    },
+    "wind_degree": 22.3,
+    "humidity": 72,
+    "wind_speed": 0.39,
+    "wind_direction": "ĐB",
+    "pressure": 100.7,
+    "wind_dust": 296,
+    "sulfur_dioxide": 75,
+    "carbon_monoxide": 3000,
+    "nito_dioxit": 53,
+    "equivalent_noise": 69.4,
+    "extreme_noise": 90.7,
+    "__v": 0
+  },{
+    "_id": {
+      "$oid": "642a61df38ce7c92773af870"
+    },
+    "location": {
+      "address": "Ha Nam",
+      "latitude": 20.5388186861454,
+      "longitude": 105.948722117752
+    },
+    "date": {
+      "$date": "2018-12-02T17:00:00.000Z"
+    },
+    "wind_degree": 30,
+    "humidity": 66.5,
+    "wind_speed": 0.62,
+    "wind_direction": "ĐB",
+    "pressure": 100.6,
+    "wind_dust": 391,
+    "sulfur_dioxide": 102,
+    "carbon_monoxide": 3000,
+    "nito_dioxit": 80,
+    "equivalent_noise": 71.5,
+    "extreme_noise": 88.3,
+    "__v": 0
+  },{
+    "_id": {
+      "$oid": "642a624e9d3906fd33c80451"
+    },
+    "location": {
+      "address": "Ha Nam",
+      "latitude": 20.5415160303323,
+      "longitude": 105.912529425948
+    },
+    "date": {
+      "$date": "2018-12-03T17:00:00.000Z"
+    },
+    "wind_degree": 30.2,
+    "humidity": 66.3,
+    "wind_speed": 0.58,
+    "wind_direction": "ĐB",
+    "pressure": 100.4,
+    "wind_dust": 616,
+    "sulfur_dioxide": 130,
+    "carbon_monoxide": 3000,
+    "nito_dioxit": 108,
+    "equivalent_noise": 76.5,
+    "extreme_noise": 94.4,
+    "__v": 0
+  },{
+    "_id": {
+      "$oid": "642a64272d7e0e91ae330f97"
+    },
+    "location": {
+      "address": "Ha Nam",
+      "latitude": 20.6093506747399,
+      "longitude": 105.900872766529
+    },
+    "date": {
+      "$date": "2018-06-12T17:00:00.000Z"
+    },
+    "wind_degree": 28.5,
+    "humidity": 66.2,
+    "wind_speed": 0.51,
+    "wind_direction": "ĐB",
+    "pressure": 101.5,
+    "wind_dust": 287,
+    "sulfur_dioxide": 65,
+    "carbon_monoxide": 3000,
+    "nito_dioxit": 41,
+    "equivalent_noise": 68.3,
+    "extreme_noise": 86.7,
+    "__v": 0
+  },{
+    "_id": {
+      "$oid": "642a64bfb8763392c175bbf7"
+    },
+    "location": {
+      "address": "Ha Nam",
+      "latitude": 20.6093506747399,
+      "longitude": 105.900872766529
+    },
+    "date": {
+      "$date": "2018-05-11T17:00:00.000Z"
+    },
+    "wind_degree": 26,
+    "humidity": 69.5,
+    "wind_speed": 0.47,
+    "wind_direction": "ĐB",
+    "pressure": 101.2,
+    "wind_dust": 77,
+    "sulfur_dioxide": 116,
+    "carbon_monoxide": 3000,
+    "nito_dioxit": 95,
+    "equivalent_noise": 70.8,
+    "extreme_noise": 92.2,
+    "__v": 0
+  },{
+    "_id": {
+      "$oid": "642a6698bc27d5453fe74669"
+    },
+    "location": {
+      "address": "Ha Nam",
+      "latitude": 20.6327677089597,
+      "longitude": 105.912741366696
+    },
+    "date": {
+      "$date": "2018-06-11T17:00:00.000Z"
+    },
+    "wind_degree": 26.6,
+    "humidity": 66.8,
+    "wind_speed": 0.48,
+    "wind_direction": "ĐB",
+    "pressure": 101.2,
+    "wind_dust": 341,
+    "sulfur_dioxide": 91,
+    "carbon_monoxide": 3000,
+    "nito_dioxit": 68,
+    "equivalent_noise": 79.3,
+    "extreme_noise": 88.5,
+    "__v": 0
+  },{
+    "_id": {
+      "$oid": "642a66f54d989fd45c149dca"
+    },
+    "location": {
+      "address": "Ha Nam",
+      "latitude": 20.6270784758994,
+      "longitude": 105.916135624545
+    },
+    "date": {
+      "$date": "2018-06-11T17:00:00.000Z"
+    },
+    "wind_degree": 27.4,
+    "humidity": 66.5,
+    "wind_speed": 0.49,
+    "wind_direction": "ĐB",
+    "pressure": 101.5,
+    "wind_dust": 67,
+    "sulfur_dioxide": 87,
+    "carbon_monoxide": 3000,
+    "nito_dioxit": 40,
+    "equivalent_noise": 66.9,
+    "extreme_noise": 79.8,
+    "__v": 0
+  },{
+    "_id": {
+      "$oid": "642a674579d68f10d1adacd7"
+    },
+    "location": {
+      "address": "Ha Nam",
+      "latitude": 20.6093506747399,
+      "longitude": 105.900872766529
+    },
+    "date": {
+      "$date": "2018-06-11T17:00:00.000Z"
+    },
+    "wind_degree": 28.5,
+    "humidity": 66.2,
+    "wind_speed": 0.51,
+    "wind_direction": "ĐB",
+    "pressure": 101.5,
+    "wind_dust": 287,
+    "sulfur_dioxide": 65,
+    "carbon_monoxide": 3000,
+    "nito_dioxit": 41,
+    "equivalent_noise": 68.3,
+    "extreme_noise": 86.7,
+    "__v": 0
+  },{
+    "_id": {
+      "$oid": "642a6795b39ed8ac14430146"
+    },
+    "location": {
+      "address": "Ha Nam",
+      "latitude": 20.5736125868886,
+      "longitude": 105.919467006059
+    },
+    "date": {
+      "$date": "2018-06-11T17:00:00.000Z"
+    },
+    "wind_degree": 29.7,
+    "humidity": 66,
+    "wind_speed": 0.53,
+    "wind_direction": "ĐB",
+    "pressure": 101.5,
+    "wind_dust": 293,
+    "sulfur_dioxide": 84,
+    "carbon_monoxide": 3000,
+    "nito_dioxit": 61,
+    "equivalent_noise": 67.6,
+    "extreme_noise": 89.7,
+    "__v": 0
+  },{
+    "_id": {
+      "$oid": "642a682314e15b78dc71e42e"
+    },
+    "location": {
+      "address": "Ha Nam",
+      "latitude": 20.5307640421917,
+      "longitude": 105.896825519985
+    },
+    "date": {
+      "$date": "2018-04-11T17:00:00.000Z"
+    },
+    "wind_degree": 24,
+    "humidity": 69.1,
+    "wind_speed": 0.43,
+    "wind_direction": "ĐB",
+    "pressure": 100.4,
+    "wind_dust": 274,
+    "sulfur_dioxide": 68,
+    "carbon_monoxide": 3000,
+    "nito_dioxit": 43,
+    "equivalent_noise": 65.2,
+    "extreme_noise": 79.8,
+    "__v": 0
+  },{
+    "_id": {
+      "$oid": "642a68d3ab490b5109d665d6"
+    },
+    "location": {
+      "address": "Ha Nam",
+      "latitude": 20.5636293232319,
+      "longitude": 105.855740838742
+    },
+    "date": {
+      "$date": "2018-12-17T17:00:00.000Z"
+    },
+    "wind_degree": 22.8,
+    "humidity": 70.5,
+    "wind_speed": 0.5,
+    "wind_direction": "ĐB",
+    "pressure": 100.4,
+    "wind_dust": 712,
+    "sulfur_dioxide": 109,
+    "carbon_monoxide": 3000,
+    "nito_dioxit": 87,
+    "equivalent_noise": 73.8,
+    "extreme_noise": 94.1,
+    "__v": 0
+  }]

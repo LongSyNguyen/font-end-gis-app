@@ -1,0 +1,35 @@
+@import 'normalize.css'; // reset css
+
+:root {
+    --primary: #fe2c55;
+    --black: #000;
+    --white: #fff;
+    --text-color: rgba(51, 51, 51, .5);
+    --paleyellow: #f0ad4e;
+}
+
+// Fonts emmbeded
+@font-face {
+    font-family: Roboto-thin;
+    src: url('../../assets/fonts/Roboto/Roboto-Medium.ttf');
+    font-weight: 400;
+}
+
+body {
+    box-sizing: border-box;
+    font-family: Roboto-thin;
+    font-size: 1.2rem;
+    color: var(--text-color);
+    margin: 0;
+}
+
+button,
+input {
+    outline: none;
+    border: none;
+}
+
+a {
+    // color: var(--text-color);
+    text-decoration: none;
+}

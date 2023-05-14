@@ -1,0 +1,59 @@
+.slider {
+  height: 400px;
+  position: relative;
+  overflow: hidden;
+}
+
+.slider::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 400px;
+  background-color: grey;
+  margin-top: -400px;
+  opacity: 0.6;
+}
+
+.text-above {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  top: 20px;
+  left: 21%;
+  color: white;
+  z-index: 1;
+  font-size: 3rem;
+  button {
+    display: block;
+  }
+}
+
+.gotomap-btn {
+  position: absolute;
+  top: 100px;
+  transform: translateY(50px);
+  &:hover {
+    color: white;
+  }
+}
+
+img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+
+@media (max-width: 800px) {
+  .gotomap-btn {
+    width: 100px;
+    height: 50px;
+    font-size: 11px !important;
+    margin-left: 70px;
+  }
+
+  .text-above {
+    font-size: 2rem;
+  }
+}

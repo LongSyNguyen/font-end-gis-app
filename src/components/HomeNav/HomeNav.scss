@@ -1,0 +1,91 @@
+:root {
+    --nav-height: 60px;
+}
+
+.Navbar {
+  height: var(--nav-height);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  min-height: 5rem;
+  box-shadow: 0 4px 8px 0 rgba(9, 0, 0, 0.7);
+  // background: #7EC8E3;
+}
+
+.Navbar-logo {
+  font-weight: 700;
+  color: #005dab !important;
+}
+
+.Navbar-logo,
+.Navbar-items {
+  display: block;
+  display: flex;
+  color: rgba(0, 0, 0, 0.55);
+  &:hover {
+    color: #454545;
+  }
+  button {
+    border: none;
+  }
+}
+
+.Navbar-items {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  grid-gap: 5rem;
+  
+  a {
+    display: block;
+    color: rgba(0, 0, 0, 0.55);
+    &:hover {
+      color: #454545;
+    }
+  }
+}
+
+.Navbar-items-toggle-open,
+.Navbar-items-toggle-close {
+    display: none;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Responsive layout - makes a one column layout instead of a two-column layout */
+@media (max-width: 800px) {
+  .Navbar-items {
+    z-index: 5;
+    font-size: 1rem;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background: black;
+    left: 0;
+    width: 60%;
+    height: 100%;
+    opacity: 0.9;
+    a, .Navbar-items-toggle-close {
+        margin-left: 1rem;
+        color: rgb(201 208 214);
+        &:hover {
+                color: white;
+            }
+    }
+  }
+
+    .Navbar-items-toggle-open,
+    .Navbar-items-toggle-close {
+    display: block;
+    cursor: pointer;
+    font-size: 2rem;
+  }
+
+  .Navbar-items-toggle-close {
+    margin: 1rem;
+  }
+}
