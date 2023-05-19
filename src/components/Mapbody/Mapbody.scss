@@ -1,8 +1,92 @@
 .body-content-wrapper {
     height: 100%;
-    // width: 100%;
+    width: 100%;
 }
 
 .leaflet-container {
     height: 100%;
 }
+
+b {
+    color: red;
+}
+
+.modal-title {
+    color: black;
+}
+
+.modal-body {
+    color: black;
+}
+.custom-progress-level_1 {
+    background-color: #c6f3c6 !important;
+}
+
+.custom-progress-level_2 {
+    background-color: rgb(243, 243, 175) !important;
+}
+
+.custom-progress-level_3 {
+    background-color: rgb(245, 217, 165) !important;
+}
+
+.custom-progress-level_4 {
+    background-color: rgb(234, 234, 234) !important;
+}
+
+.custom-progress-level_5 {
+    background-color: #fdbaba !important;
+}
+
+.custom-progress-bar-level_1 {
+    background-color: #4cb84c !important;
+}
+
+.custom-progress-bar-level_2 {
+    background-color: rgb(232, 232, 22) !important;
+}
+
+.custom-progress-bar-level_3 {
+    background-color: orange !important;
+}
+
+.custom-progress-bar-level_4 {
+    background-color: rgb(92, 92, 92) !important;
+}
+
+.custom-progress-bar-level_5 {
+    background-color: #d81e1e !important;
+}
+
+.custom-progress-bar-level_6 {
+    background-color: #ab19ab !important;
+}
+
+div.modal-body div table {
+    width: 100%;
+}
+
+table.aqi-value {
+    height: 100%;
+    width: 11%;
+}
+table.recommendation {
+    width: 100%;
+}
+tr#valueAqi{
+    font-size: xx-large;
+}
+td.column1 {
+    width: 30%;
+  }
+
+td.column2 {
+    width: 70%;
+  }
+  td.rcmColumn1 {
+    width: 10%;
+  }
+
+td.rcmColumn2 {
+    width: 40%;
+  }
