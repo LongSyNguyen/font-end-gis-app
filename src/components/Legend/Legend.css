@@ -1,0 +1,27 @@
+ .legend {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 1000;
+    border-radius: 15px;
+    box-shadow: 0 0 0 2px rgb(0 0 0 / 10%);
+  }
+@media (min-width: 684px) {
+  .legend table {
+    height: 20px;
+    font-size: inherit;
+  }
+}
+@media (max-width: 684px) {
+  table {
+    font-size: small;
+  }
+  .marker{
+    width:20px;
+    height:30px;
+  }
+  .img{
+    width:100%;
+    height:100%;
+  }
+}

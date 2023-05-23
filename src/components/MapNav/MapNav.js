@@ -23,7 +23,9 @@ function MapNav() {
    <>
       <div className="MapNav">
         <div className="Navbar-items-left">
-          <BsTextCenter className="Navbar-items-toggle-open"/>
+          <BsTextCenter className="Navbar-items-toggle-open"
+          data-toggle="collapse" data-target="#navbarToggleExternalContent"
+          aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation"/>
         </div>
         <div className="Navbar-items-center">
           <BsSearch className="search-input-icon"/>

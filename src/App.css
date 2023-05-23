@@ -1,0 +1,6 @@
+.gradient-circle {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background-image: radial-gradient(#00FFFF, #17C8FF, #329BFF, #4C64FF, #6536FF, #8000FF);
+  }

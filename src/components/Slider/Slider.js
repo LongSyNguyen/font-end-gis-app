@@ -1,5 +1,5 @@
 import "./Slider.scss"
-import slider from './../../assets/images/slider.jpg';
+import slider from './../../assets/images/4.png';
 import Button from "components/Button/Button";
 
 function Slider(props) {

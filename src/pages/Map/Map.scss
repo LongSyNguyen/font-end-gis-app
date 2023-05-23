@@ -13,14 +13,21 @@
   max-width: 50%;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
   .body-wrapper {
-      grid-template-columns: 25% 75%;
+      grid-template-columns: 20% 80%;
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 850px) {
   .body-wrapper {
-      grid-template-columns: 28% 72%;
+    display: block;
+      .body-sidebar-wrapper{
+        display: none;
+      }
+      .body-content-wrapper{
+        height: 100%;
+        width: 100%;
+      }
   }
 }

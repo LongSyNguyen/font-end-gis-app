@@ -1,4 +1,6 @@
-import infor from "./../../assets/images/infor.png";
+import infor1 from "./../../assets/images/1.png";
+import infor2 from "./../../assets/images/2.png";
+import infor3 from "./../../assets/images/3.png";
 import "./HomeBody.scss";
 
 function HomeBody() {
@@ -19,7 +21,7 @@ function HomeBody() {
             hơn.
           </div>
         </div>
-        <img src={infor} alt="img" />
+        <img src={infor1} alt="img" />
       </div>
       <div className="homebody-web-intro">
         <div className="homebody-web-intro__content">
@@ -36,7 +38,7 @@ function HomeBody() {
             hơn.
           </div>
         </div>
-        <img src={infor} alt="img" />
+        <img src={infor2} alt="img" />
       </div>
       <div className="homebody-web-intro">
         <div className="homebody-web-intro__content">
@@ -53,7 +55,7 @@ function HomeBody() {
             hơn.
           </div>
         </div>
-        <img src={infor} alt="img" />
+        <img className="function" src={infor3} alt="img" />
       </div>
     </div>
   );
