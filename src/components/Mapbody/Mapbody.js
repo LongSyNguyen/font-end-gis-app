@@ -133,7 +133,7 @@ function Mapbody(props) {
           iconAnchor: [12, 41],
           popupAnchor: [1, -34],
           tooltipAnchor: [16, -28],
-        }), '#d81e1e', redFace, "#ffffff", 'Ô nhiễm không khí ở mức nguy hiểm', maxValue]
+        }), '#d81e1e', redFace, "#ffffff", 'Ô nhiễm không khí ở mức rất không lành mạnh', maxValue]
       }
       else if (maxValue === 6) {
         return [L.icon({
@@ -143,7 +143,7 @@ function Mapbody(props) {
           iconAnchor: [12, 41],
           popupAnchor: [1, -34],
           tooltipAnchor: [16, -28],
-        }), '#ab19ab', violetFace, "#ffffff", 'chất lượng ko khí ở mức tốt', maxValue]
+        }), '#ab19ab', violetFace, "#ffffff", 'chất lượng ko khí ở mức nguy hiểm', maxValue]
       }
     }
 
@@ -440,7 +440,7 @@ function Mapbody(props) {
           let result = `<table>
           <tbody>
           <tr>
-          <td class="column1">${keys[2]}: ${props.data[id][keys[2]].iso.slice(0, 10)}</td>`
+          <td class="column1">${keys[2].toUpperCase()}: ${props.data[id][keys[2]].iso.slice(0, 10)}</td>`
           if (color[1] === "#4cb84c") {
             result += `<td class="column2"><u>${color[4]}</u> so với kiểu dữ liệu bạn quan tâm</td>`
           }
