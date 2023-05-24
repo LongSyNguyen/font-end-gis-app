@@ -13,6 +13,11 @@ function Map(props) {
         props.callApi('')
         api = {}
     }
+    const [toggleMenu, setToggleMenu] = useState(false);
+    const controlSidebar = () => {
+        setToggleMenu(!toggleMenu)
+    }
+
     const [selectedDataType, setSelectedDataType] = useState('excel');
     const [pollutionState, setPollutionState] = useState([]);
     const [selectedYear, setSelectedYear] = useState('');
@@ -137,13 +142,18 @@ function Map(props) {
                 }
 
                 if (selectedYear !== '' && Object.keys(pollutionState).length !== 0) {
-                        return (
+                    return (
                         <div className='map-container'>
-                            <MapNav />
-                            <div className="body-wrapper">
+                            <MapNav controlSidebar={controlSidebar} />
+
+                            {toggleMenu ? <div className="body-wrapper open">
                                 <MapSidebar listOfYear={year} listOfMonth={month} selectedYear={selectedYear} selectedMonth={selectedMonth} conscious={conscious} onOptionChange={handleOptionChange} onTypeChange={handleTypeChange} selectedDataType={selectedDataType} onDataTypeChange={handleDataTypeChange} typeOfPollutions={pollutionState} />
                                 <Mapbody data={dataMap} listOfYear={year} listOfMonth={month} selectedMonth={selectedMonth} selectedYear={selectedYear} center={centerLatLng} typeOfPollutions={pollutionState} selectedDataType={selectedDataType} callApi={callApiDefault} />
-                            </div>
+                            </div> :
+                                <div className="body-wrapper close">
+                                    <MapSidebar className="close" listOfYear={year} listOfMonth={month} selectedYear={selectedYear} selectedMonth={selectedMonth} conscious={conscious} onOptionChange={handleOptionChange} onTypeChange={handleTypeChange} selectedDataType={selectedDataType} onDataTypeChange={handleDataTypeChange} typeOfPollutions={pollutionState} />
+                                    <Mapbody data={dataMap} listOfYear={year} listOfMonth={month} selectedMonth={selectedMonth} selectedYear={selectedYear} center={centerLatLng} typeOfPollutions={pollutionState} selectedDataType={selectedDataType} callApi={callApiDefault} />
+                                </div>}
                         </div>
                     );
                 }
@@ -156,11 +166,15 @@ function Map(props) {
                 if (Object.keys(pollutionState).length !== 0) {
                     return (
                         <div className='map-container'>
-                            <MapNav />
-                            <div className="body-wrapper">
-                                <MapSidebar listOfYear={year} listOfMonth={month} selectedYear={selectedYear} selectedMonth={selectedMonth} conscious={conscious} onOptionChange={handleOptionChange} onTypeChange={handleTypeChange} selectedDataType={selectedDataType} onDataTypeChange={handleDataTypeChange} typeOfPollutions={pollutionState} />
+                            <MapNav controlSidebar={controlSidebar} />
+                            {toggleMenu ? <div className="body-wrapper open">
+                                <MapSidebar className="open" listOfYear={year} listOfMonth={month} selectedYear={selectedYear} selectedMonth={selectedMonth} conscious={conscious} onOptionChange={handleOptionChange} onTypeChange={handleTypeChange} selectedDataType={selectedDataType} onDataTypeChange={handleDataTypeChange} typeOfPollutions={pollutionState} />
                                 <Mapbody data={dataMap} listOfYear={year} listOfMonth={month} selectedMonth={selectedMonth} selectedYear={selectedYear} center={centerLatLng} typeOfPollutions={pollutionState} selectedDataType={selectedDataType} callApi={callApiDefault} />
-                            </div>
+                            </div> :
+                                <div className="body-wrapper close">
+                                    <MapSidebar className="close" listOfYear={year} listOfMonth={month} selectedYear={selectedYear} selectedMonth={selectedMonth} conscious={conscious} onOptionChange={handleOptionChange} onTypeChange={handleTypeChange} selectedDataType={selectedDataType} onDataTypeChange={handleDataTypeChange} typeOfPollutions={pollutionState} />
+                                    <Mapbody data={dataMap} listOfYear={year} listOfMonth={month} selectedMonth={selectedMonth} selectedYear={selectedYear} center={centerLatLng} typeOfPollutions={pollutionState} selectedDataType={selectedDataType} callApi={callApiDefault} />
+                                </div>}
                         </div>
                     );
                 }

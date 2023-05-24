@@ -6,7 +6,7 @@ function Slider(props) {
   return (
     <div className="slider">
       <div className="text-above">
-        <span>WEBGIS CẢNH BÁO Ô NHIỄM MÔI TRƯỜNG</span>
+        <span>WEBSITE QUẢN LÝ DỮ LIỆU MÔI TRƯỜNG</span>
         <Button paleyellow to="/map" className="gotomap-btn" onClick={props.callApi("airs")}>Xem bản đồ</Button>
       </div>
       <img src={slider} alt="slider" />

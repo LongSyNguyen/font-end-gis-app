@@ -3,7 +3,14 @@ import { NavLink } from "react-router-dom";
 
 import "./MapNav.scss";
 
-function MapNav() {
+function MapNav(props) {
+
+  const toggleNav = () => {
+      props.controlSidebar()
+    }
+  
+
+  //
     const menuData = [
     {
       path: "/",
@@ -25,7 +32,7 @@ function MapNav() {
         <div className="Navbar-items-left">
           <BsTextCenter className="Navbar-items-toggle-open"
           data-toggle="collapse" data-target="#navbarToggleExternalContent"
-          aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation"/>
+          aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation" onClick={toggleNav}/>
         </div>
         <div className="Navbar-items-center">
           <BsSearch className="search-input-icon"/>

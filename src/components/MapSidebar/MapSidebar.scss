@@ -2,6 +2,7 @@
   border-right: 1px solid #c3bebe;
   height: 100%;
   box-sizing: border-box;
+  background-color: rgb(255, 255, 255);
 }
 
 .sidebar-logo {
@@ -32,6 +33,7 @@ h2.cus button.accordion-button.collapsed{
   box-sizing: border-box;
   .menu-items-header {
     padding: 0.8rem;
+    background-color: #f5f5f5;
     color: rgba(51, 51, 51, 0.5) !important;
     font-size: 0.9rem;
   }
@@ -42,6 +44,7 @@ h2.cus button.accordion-button.collapsed{
       &:hover {
         background: #f5f5f5;
       }
+      background-color: #f5f5f5;
       color: rgba(51, 51, 51, 0.85) !important;
       font-weight: 500 !important;
       font-size: 0.9rem;
