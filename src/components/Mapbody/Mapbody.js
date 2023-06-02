@@ -1,6 +1,7 @@
 import { MapContainer, TileLayer, Marker, GeoJSON } from 'react-leaflet';
 import { useRef, useEffect, useState } from 'react';
-import L from 'leaflet';
+import * as turf from '@turf/turf'
+import L, { point } from 'leaflet';
 import "leaflet/dist/leaflet.css";
 import "./Mapbody.scss";
 import Legend from 'components/Legend';
@@ -44,7 +45,6 @@ import recommendationYellowSport from "../.././assets/images/recommendationYello
 import recommendationYellowWindow from "../.././assets/images/recommendationYellowWindow.svg";
 
 import { Modal } from "react-bootstrap";
-
 
 function Mapbody(props) {
   // trả về obj bao gồm tên các giá trị ô nhiễm, state, value. mainPollutant là giá trị ô nhiễm chính
@@ -198,7 +198,7 @@ function Mapbody(props) {
                 index={index}
                 level={0}
                 name={elementGeojson.properties.NAME_3}
-                data={elementGeojson.geometry}
+                data={[elementGeojson.geometry, {}]}
                 color='black'
                 fillColor="blue"
                 fillOpacity={0.1} />
@@ -210,7 +210,18 @@ function Mapbody(props) {
         const mainPollutant = typeOfPollution(typeOfPollutions, points[i])
         const color = classPoint(points[i], mainPollutant)
         const indexDataMap = key.indexOf(points[i].location.commune.replace(/\s/g, ""))
-
+        const geoJsonData = {
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [points[i].location.longitude, points[i].location.latitude],
+          },
+          properties: {
+            name: 'GeoJSON Point',
+            description: 'GeoJSON Description',
+          },
+        };
+        const buffered = turf.buffer(geoJsonData, 1000, { units: 'meters' });
         if (color[5] > dataMap[points[i].date.year][points[i].date.month][indexDataMap]?.props?.level) {
           dataMap[points[i].date.year][points[i].date.month][indexDataMap] =
             <GeoJSON
@@ -218,11 +229,12 @@ function Mapbody(props) {
               index={indexDataMap}
               level={color[5]}
               name={points[i].location.commune.replace(/\s/g, "")}
-              data={fileGeoJSON.features[indexDataMap].geometry}
+              data={[fileGeoJSON.features[indexDataMap].geometry, buffered]}
               color='black'
               fillColor={color[1]}
               fillOpacity={0.65} />
         }
+
         markers[points[i].date.year][points[i].date.month].push(
           <Marker commune={points[i].location.commune} level={color[5]} color={color[1]} id={i} position={[points[i].location.latitude, points[i].location.longitude]} icon={color[0]}
             eventHandlers={{
@@ -232,7 +244,7 @@ function Mapbody(props) {
             }}>
           </Marker>
         );
-      }
+        }
       for (let index = 0; index < Object.keys(markers).length; index++) {
         const element = markers[Object.keys(markers)[index]];
         Object.keys(element).forEach(key => {
