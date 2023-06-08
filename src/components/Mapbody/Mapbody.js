@@ -154,13 +154,13 @@ function Mapbody(props) {
   // bay tới người dùng
   function LocationMarker() {
     const map = mapRef.current;
-      navigator.geolocation.watchPosition(function (position) {
-        map.flyTo([position.coords.latitude, position.coords.longitude], 16, {
-          animate :true,
-          duration: 1,
-          easeLinearity: 0.5,
-        });
+    navigator.geolocation.watchPosition(function (position) {
+      map.flyTo([position.coords.latitude, position.coords.longitude], 16, {
+        animate: true,
+        duration: 1,
+        easeLinearity: 0.5,
       });
+    });
 
   }
 
@@ -191,6 +191,7 @@ function Mapbody(props) {
                 level={0}
                 name={elementGeojson.properties.NAME_3}
                 data={elementGeojson.geometry}
+                weight="2"
                 color='black'
                 fillColor="blue"
                 fillOpacity={0.1} />
@@ -212,6 +213,7 @@ function Mapbody(props) {
               level={color[5]}
               name={points[i].location.commune.replace(/\s/g, "")}
               data={fileGeoJSON.features[indexDataMap].geometry}
+              weight="2"
               color='black'
               fillColor={color[1]}
               fillOpacity={0.65} />
@@ -584,7 +586,7 @@ function Mapbody(props) {
   const handleClick = () => {
     if (mapRef.current) {
       mapRef.current.flyTo(center, 11, {
-        animate :true,
+        animate: true,
         duration: 1,
         easeLinearity: 0.5,
       });
