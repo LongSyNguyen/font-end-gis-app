@@ -796,12 +796,12 @@ function MapSidebar(props) {
                               ))}
                             </select>
                           </Row>
-                          <Row className="custom-modal-body">
+                          <Row style={{display:"grid"}} className="custom-modal-body">
                             <Col className="col-1" xs={7} md={8}>
                               {showModal}
                             </Col>
                             <Col className="col-2" xs={5} md={4}>
-                              <div style={{ display: 'flex' }}>
+                              <div>
                                 <Doughnut
                                   ref={canvasRef}
                                   data={dataDoughnutChart}
