@@ -1,0 +1,45 @@
+.locate-container {
+  display: block;
+  height: fit-content;
+  height: -moz-fit-content;
+  width: fit-content;
+  width: -moz-fit-content;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1000;
+  margin: 14px;
+}
+
+.locate-block {
+  border-radius: 8%;
+  color: aliceblue;
+  background-color: #005eebf1;
+  height: 100%;
+  width: 100%;
+  font-size: 24px;
+  padding: 12px;
+
+  img {
+    height: 40px;
+    width: 40px;
+  }
+}
+@media (max-width: 800px) {
+    .locate-block {
+      font-size: 1rem;
+      img {
+        height: 30px;
+        width: 30px;
+      }
+    }
+}
+@media (max-width: 400px) {
+  .locate-block {
+    font-size: 0.7rem;
+    img {
+      height: 25px;
+      width: 25px;
+    }
+  }
+}

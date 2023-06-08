@@ -1,9 +1,10 @@
-import { MapContainer, TileLayer, Marker, GeoJSON } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, GeoJSON, useMapEvents, Popup } from 'react-leaflet';
 import { useRef, useEffect, useState } from 'react';
-import L from 'leaflet';
+import L, { point } from 'leaflet';
 import "leaflet/dist/leaflet.css";
 import "./Mapbody.scss";
 import Legend from 'components/Legend';
+import Locate from 'components/Locate';
 import blueMarker from "../.././assets/images/marker-icon-2x-blue.png";
 import greenMarker from "../.././assets/images/marker-icon-2x-green.png";
 import yellowMarker from "../.././assets/images/marker-icon-2x-yellow.png";
@@ -149,28 +150,19 @@ function Mapbody(props) {
 
   }
 
-  // bay tới nguwiof dùng
-  // function LocationMarker() {
-  //   const [position, setPosition] = useState(null)
-  //   const map = useMapEvents({
-  //     // overlayadd(){
-  //     //   console.log()
-  //     // },
-  //     click() {
-  //       map.locate()
-  //     },
-  //     locationfound(e) {
-  //       setPosition(e.latlng)
-  //       map.flyTo(e.latlng, map.getZoom())
-  //     },
-  //   })
 
-  //   return position === null ? null : (
-  //     <Marker position={position} icon={classPoint()}>
-  //       <Popup>You are here</Popup>
-  //     </Marker>
-  //   )
-  // }
+  // bay tới người dùng
+  function LocationMarker() {
+    const map = mapRef.current;
+      navigator.geolocation.watchPosition(function (position) {
+        map.flyTo([position.coords.latitude, position.coords.longitude], 16, {
+          animate :true,
+          duration: 1,
+          easeLinearity: 0.5,
+        });
+      });
+
+  }
 
   // tạo marker, geojson, obj data year month
   function marker(points, type, typeOfPollutions, fileGeoJSON, listOfYears = [], listOfMonths = []) {
@@ -228,7 +220,7 @@ function Mapbody(props) {
           <Marker commune={points[i].location.commune} level={color[5]} color={color[1]} id={i} position={[points[i].location.latitude, points[i].location.longitude]} icon={color[0]}
             eventHandlers={{
               click: () => {
-                handleMarkerClick(i)
+                handleMarkerClick(i);
               },
             }}>
           </Marker>
@@ -592,6 +584,7 @@ function Mapbody(props) {
   const handleClick = () => {
     if (mapRef.current) {
       mapRef.current.flyTo(center, 11, {
+        animate :true,
         duration: 1,
         easeLinearity: 0.5,
       });
@@ -645,6 +638,7 @@ function Mapbody(props) {
           {markersDisplay}
           {/* <LocationMarker /> */}
           <Legend />
+          <Locate locate={LocationMarker} />
         </MapContainer>
         <Modal show={show} onHide={handleClose} size="lg" centered >
           <Modal.Header closeButton style={{ backgroundColor: modalColor[0], color: modalColor[1] }}>

@@ -37,7 +37,7 @@ h2.cus button.accordion-button.collapsed {
 }
 // .custom-select{
 //   display: flex;
-  
+
 // }
 .custom-modal-body {
   display: grid ;
@@ -164,25 +164,25 @@ h2.cus button.accordion-button.collapsed {
 }
 @media (max-width: 600px) {
   .custom-modal-body {
-    // display: none;
+    grid-template-columns: 100% ;
     background-color: #eae3e3;
-  
+
     .col-1 {
       height: 150px;
       width: 100%;
       overflow-y: scroll;
       font-size: 76%;
-  
+
       .table-row {
         height: 45px;
       }
-  
-  
+
+
       .table-row:hover {
         background-color: rgb(173, 173, 135);
       }
     }
-  
+
     .col-2 {
       display: none;
     }

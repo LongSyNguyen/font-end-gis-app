@@ -52,6 +52,29 @@ function MapSidebar(props) {
   };
   const userActive = (event, type) => {
     if (type === 'search') {
+      setSearchInput("")
+      setCurrentYear(props.selectedYear)
+      setCurrentMonth(props.selectedMonth)
+      setCurrentAddress('')
+      setOptionsBarChart({
+        plugins: {
+          legend: {
+            display: false,
+          },
+          title: {
+            display: false,
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 500,
+            ticks: {
+              stepSize: 50,
+            }
+          }
+        }
+      })
       event.preventDefault();
       setSearchInput(event.target.value)
       setShowModal(
@@ -121,6 +144,29 @@ function MapSidebar(props) {
       );
     }
     if (type === 'year') {
+      setSearchInput("")
+      setCurrentYear(props.selectedYear)
+      setCurrentMonth(props.selectedMonth)
+      setCurrentAddress('')
+      setOptionsBarChart({
+        plugins: {
+          legend: {
+            display: false,
+          },
+          title: {
+            display: false,
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 500,
+            ticks: {
+              stepSize: 50,
+            }
+          }
+        }
+      })
       setCurrentYear(event.target.value)
       document.getElementById("month")
       setShowModal(
@@ -204,6 +250,29 @@ function MapSidebar(props) {
       }
     }
     else if (type === 'month') {
+      setSearchInput("")
+      setCurrentYear(props.selectedYear)
+      setCurrentMonth(props.selectedMonth)
+      setCurrentAddress('')
+      setOptionsBarChart({
+        plugins: {
+          legend: {
+            display: false,
+          },
+          title: {
+            display: false,
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 500,
+            ticks: {
+              stepSize: 50,
+            }
+          }
+        }
+      })
       setCurrentMonth(event.target.value)
       setShowModal(
         <div>
@@ -397,12 +466,12 @@ function MapSidebar(props) {
             fontSize: 20
           }
         },
-        scales:{
-          y:{
+        scales: {
+          y: {
             beginAtZero: true,
             max: 500,
-            ticks:{
-              stepSize:50,
+            ticks: {
+              stepSize: 50,
             }
           }
         }
@@ -486,15 +555,15 @@ function MapSidebar(props) {
           display: false,
         }
       },
-        scales:{
-          y:{
-            beginAtZero: true,
-            max: 500,
-            ticks:{
-              stepSize:50,
-            }
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 500,
+          ticks: {
+            stepSize: 50,
           }
         }
+      }
     })
   };
 
@@ -752,7 +821,7 @@ function MapSidebar(props) {
                 </Accordion>
                 <Accordion style={{ marginTop: '5px' }}>
                   <Accordion.Item eventKey="0" className="accordion-item-toggle1">
-                    <Accordion.Header className="cus" onClick={() => handleShow()}>Bộ lọc nâng cao</Accordion.Header>
+                    <Accordion.Header className="cus" onClick={() => handleShow()}>Thống kê</Accordion.Header>
                     <Modal show={show} onHide={handleClose} size="lg" centered>
                       <Modal.Header closeButton >
                         <Modal.Title>Modal</Modal.Title>
@@ -766,6 +835,7 @@ function MapSidebar(props) {
                               <input
                                 type="text"
                                 placeholder="Search here"
+                                style={{ width: '100%' }}
                                 onChange={(event) => {
                                   userActive(event, 'search')
                                   handleSelectChange('')
@@ -773,7 +843,7 @@ function MapSidebar(props) {
                                 value={searchInput} />
 
                             </div>
-                            <select className="year"id="year" onChange={(event) => {
+                            <select className="year" id="year" onChange={(event) => {
                               userActive(event, "year");
                               handleSelectChange(currentAddress, event.target.value, currentMonth)
                             }}>
@@ -784,7 +854,7 @@ function MapSidebar(props) {
                                 </option>
                               ))}
                             </select>
-                            <select className="month"id="month" onChange={(event) => {
+                            <select className="month" id="month" onChange={(event) => {
                               userActive(event, "month");
                               handleSelectChange(currentAddress, currentYear, event.target.value)
                             }}>
@@ -796,7 +866,7 @@ function MapSidebar(props) {
                               ))}
                             </select>
                           </Row>
-                          <Row style={{display:"grid"}} className="custom-modal-body">
+                          <Row style={{ display: "grid" }} className="custom-modal-body">
                             <Col className="col-1" xs={7} md={8}>
                               {showModal}
                             </Col>
