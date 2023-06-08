@@ -1,7 +1,6 @@
 import { MapContainer, TileLayer, Marker, GeoJSON } from 'react-leaflet';
 import { useRef, useEffect, useState } from 'react';
-import * as turf from '@turf/turf'
-import L, { point } from 'leaflet';
+import L from 'leaflet';
 import "leaflet/dist/leaflet.css";
 import "./Mapbody.scss";
 import Legend from 'components/Legend';
@@ -45,6 +44,7 @@ import recommendationYellowSport from "../.././assets/images/recommendationYello
 import recommendationYellowWindow from "../.././assets/images/recommendationYellowWindow.svg";
 
 import { Modal } from "react-bootstrap";
+
 
 function Mapbody(props) {
   // trả về obj bao gồm tên các giá trị ô nhiễm, state, value. mainPollutant là giá trị ô nhiễm chính
@@ -113,7 +113,7 @@ function Mapbody(props) {
           iconAnchor: [12, 41],
           popupAnchor: [1, -34],
           tooltipAnchor: [16, -28],
-        }), 'orange', orangeFace, "#000000", 'Không lành mạnh cho các nhóm nhạy cảm', maxValue]
+        }), 'orange', orangeFace, "#000000", 'Chất lượng ko khí ở mức kém', maxValue]
       }
       else if (maxValue === 4) {
         return [L.icon({
@@ -123,7 +123,7 @@ function Mapbody(props) {
           iconAnchor: [12, 41],
           popupAnchor: [1, -34],
           tooltipAnchor: [16, -28],
-        }), 'grey', greyFace, "#ffffff", 'Chất lượng ko khí không lành mạnh', maxValue]
+        }), 'grey', greyFace, "#ffffff", 'Chất lượng ko khí xấu', maxValue]
       }
       else if (maxValue === 5) {
         return [L.icon({
@@ -133,7 +133,7 @@ function Mapbody(props) {
           iconAnchor: [12, 41],
           popupAnchor: [1, -34],
           tooltipAnchor: [16, -28],
-        }), '#d81e1e', redFace, "#ffffff", 'Ô nhiễm không khí ở mức nguy hiểm', maxValue]
+        }), '#d81e1e', redFace, "#ffffff", 'Ô nhiễm không khí ở mức rất xấu', maxValue]
       }
       else if (maxValue === 6) {
         return [L.icon({
@@ -143,7 +143,7 @@ function Mapbody(props) {
           iconAnchor: [12, 41],
           popupAnchor: [1, -34],
           tooltipAnchor: [16, -28],
-        }), '#ab19ab', violetFace, "#ffffff", 'chất lượng ko khí ở mức tốt', maxValue]
+        }), '#ab19ab', violetFace, "#ffffff", 'chất lượng ko khí ở nguy hiểm', maxValue]
       }
     }
 
@@ -172,7 +172,7 @@ function Mapbody(props) {
   //   )
   // }
 
-  // tạo marker
+  // tạo marker, geojson, obj data year month
   function marker(points, type, typeOfPollutions, fileGeoJSON, listOfYears = [], listOfMonths = []) {
     if (type === 'excel') {
       let markers = {}
@@ -194,11 +194,11 @@ function Mapbody(props) {
             const elementGeojson = fileGeoJSON.features[index];
             dataMap[year][month].push(
               <GeoJSON
-                key = {`${year},${month},${index},''`}
+                key={`${year},${month},${index},''`}
                 index={index}
                 level={0}
                 name={elementGeojson.properties.NAME_3}
-                data={[elementGeojson.geometry, {}]}
+                data={elementGeojson.geometry}
                 color='black'
                 fillColor="blue"
                 fillOpacity={0.1} />
@@ -210,31 +210,20 @@ function Mapbody(props) {
         const mainPollutant = typeOfPollution(typeOfPollutions, points[i])
         const color = classPoint(points[i], mainPollutant)
         const indexDataMap = key.indexOf(points[i].location.commune.replace(/\s/g, ""))
-        const geoJsonData = {
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [points[i].location.longitude, points[i].location.latitude],
-          },
-          properties: {
-            name: 'GeoJSON Point',
-            description: 'GeoJSON Description',
-          },
-        };
-        const buffered = turf.buffer(geoJsonData, 1000, { units: 'meters' });
+
+
         if (color[5] > dataMap[points[i].date.year][points[i].date.month][indexDataMap]?.props?.level) {
           dataMap[points[i].date.year][points[i].date.month][indexDataMap] =
             <GeoJSON
-              key = {`${points[i].date.year},${points[i].date.month},${indexDataMap},${mainPollutant[1]}`}
+              key={`${points[i].date.year},${points[i].date.month},${indexDataMap},${mainPollutant[1]}`}
               index={indexDataMap}
               level={color[5]}
               name={points[i].location.commune.replace(/\s/g, "")}
-              data={[fileGeoJSON.features[indexDataMap].geometry, buffered]}
+              data={fileGeoJSON.features[indexDataMap].geometry}
               color='black'
               fillColor={color[1]}
               fillOpacity={0.65} />
         }
-
         markers[points[i].date.year][points[i].date.month].push(
           <Marker commune={points[i].location.commune} level={color[5]} color={color[1]} id={i} position={[points[i].location.latitude, points[i].location.longitude]} icon={color[0]}
             eventHandlers={{
@@ -244,7 +233,7 @@ function Mapbody(props) {
             }}>
           </Marker>
         );
-        }
+      }
       for (let index = 0; index < Object.keys(markers).length; index++) {
         const element = markers[Object.keys(markers)[index]];
         Object.keys(element).forEach(key => {
