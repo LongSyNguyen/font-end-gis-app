@@ -1,6 +1,6 @@
-import { MapContainer, TileLayer, Marker, GeoJSON, useMapEvents, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, GeoJSON } from 'react-leaflet';
 import { useRef, useEffect, useState } from 'react';
-import L, { point } from 'leaflet';
+import L from 'leaflet';
 import "leaflet/dist/leaflet.css";
 import "./Mapbody.scss";
 import Legend from 'components/Legend';
@@ -597,6 +597,21 @@ function Mapbody(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.center]);
   // end handle select tỉnh thành
+
+  let latLng = props.selectedLatLng
+  const locateMarker = () => {
+    if (mapRef.current && latLng.length !== 0) {
+      mapRef.current.flyTo(latLng, 15, {
+        animate: true,
+        duration: 1,
+        easeLinearity: 0.5,
+      });
+    }
+  };
+  useEffect(() => {
+    locateMarker();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.selectedLatLng]);
 
   if (props.selectedDataType === 'excel') {
     const markers = marker(props.data, props.selectedDataType, props.typeOfPollutions, banDoHanhChinhHanam, props.listOfYear, props.listOfMonth);
