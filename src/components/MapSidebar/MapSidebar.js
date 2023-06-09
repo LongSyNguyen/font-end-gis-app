@@ -52,7 +52,7 @@ function MapSidebar(props) {
   };
   function LocationMarker() {
     if (currentLatLng.length !== 0) {
-      props.handleSelectLatLng(currentLatLng);
+      props.handleSelectLatLng(currentLatLng,currentYear,currentMonth );
     }
   }
   const userActive = (event, type) => {

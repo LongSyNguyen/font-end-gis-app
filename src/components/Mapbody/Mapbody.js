@@ -154,14 +154,15 @@ function Mapbody(props) {
   // bay tới người dùng
   function LocationMarker() {
     const map = mapRef.current;
-    navigator.geolocation.watchPosition(function (position) {
-      map.flyTo([position.coords.latitude, position.coords.longitude], 16, {
-        animate: true,
-        duration: 1,
-        easeLinearity: 0.5,
+    if (navigator.geolocation) {
+      navigator.geolocation.watchPosition(function (position) {
+        map.flyTo([position.coords.latitude, position.coords.longitude], 16, {
+          animate: true,
+          duration: 1,
+          easeLinearity: 0.5,
+        });
       });
-    });
-
+    }
   }
 
   // tạo marker, geojson, obj data year month

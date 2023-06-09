@@ -25,8 +25,10 @@ function Map(props) {
     const [eventUserAddresss, setEventUserAddress] = useState('Tỉnh Hà Nam');
     const [centerLatLng, setcenterLatLng] = useState([20.583520, 105.922990]);
     const [selectedLatLng, setSelectedLatLng] = useState([]);
-    const handleSelectLatLng = (LatLng) => {
+    const handleSelectLatLng = (LatLng,selectedYear,selectedMonth) => {
         setSelectedLatLng(LatLng);
+        setSelectedYear(selectedYear)
+        setSelectedMonth(selectedMonth)
     }
     const handleDataTypeChange = (dataType) => {
         setSelectedDataType(dataType)
