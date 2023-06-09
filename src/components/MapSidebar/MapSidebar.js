@@ -2,7 +2,7 @@ import "./MapSidebar.scss";
 import { Accordion, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from 'react';
-import { Modal, Container, Row, Col } from "react-bootstrap";
+import { Modal, Container, Row, Col, Button } from "react-bootstrap";
 import { Bar, Doughnut } from 'react-chartjs-2';
 
 import {
@@ -50,6 +50,11 @@ function MapSidebar(props) {
   const handleButtonClick = (divType) => {
     setActiveDiv(divType);
   };
+  function LocationMarker() {
+    if (currentLatLng.length !== 0) {
+      props.handleSelectLatLng(currentLatLng);
+    }
+  }
   const userActive = (event, type) => {
     if (type === 'search') {
       setSearchInput("")
@@ -118,7 +123,7 @@ function MapSidebar(props) {
                   }
                   return (
                     <div className={'table-row'} id={index.toString()} onClick={() => {
-                      handleClickTable(element.location.address, currentYear, currentMonth, index, element[mainPollutant].aqi, typeOfPollution(valueMainPollutant)[0], mainPollutant.toUpperCase())
+                      handleClickTable(element.location.address, currentYear, currentMonth, index, element[mainPollutant].aqi, typeOfPollution(valueMainPollutant)[0], mainPollutant.toUpperCase(), [element.location.latitude, element.location.longitude])
                     }} style={{ display: "table-row", }}>
                       <div style={{ display: "table-cell", paddingTop: "3px", paddingBottom: "3px", verticalAlign: "middle" }}>
                         <td><div style={{ borderRadius: "50%", width: "100%", height: "100%", verticalAlign: "middle", backgroundColor: typeOfPollution(valueMainPollutant)[0], color: typeOfPollution(valueMainPollutant)[0] }}>.....</div></td>
@@ -209,7 +214,7 @@ function MapSidebar(props) {
                   }
                   return (
                     <div className={'table-row'} id={index.toString()} onClick={() => {
-                      handleClickTable(element.location.address, event.target.value, currentMonth, index, element[mainPollutant].aqi, typeOfPollution(valueMainPollutant)[0], mainPollutant.toUpperCase())
+                      handleClickTable(element.location.address, event.target.value, currentMonth, index, element[mainPollutant].aqi, typeOfPollution(valueMainPollutant)[0], mainPollutant.toUpperCase(), [element.location.latitude, element.location.longitude])
                     }} style={{ display: "table-row", }}>
                       <div style={{ display: "table-cell", paddingTop: "3px", paddingBottom: "3px", verticalAlign: "middle" }}>
                         <td><div style={{ borderRadius: "50%", width: "100%", height: "100%", verticalAlign: "middle", backgroundColor: typeOfPollution(valueMainPollutant)[0], color: typeOfPollution(valueMainPollutant)[0] }}>.....</div></td>
@@ -314,7 +319,7 @@ function MapSidebar(props) {
                   }
                   return (
                     <div className={'table-row'} id={index.toString()} onClick={() => {
-                      handleClickTable(element.location.address, currentYear, event.target.value, index, element[mainPollutant].aqi, typeOfPollution(valueMainPollutant)[0], mainPollutant.toUpperCase())
+                      handleClickTable(element.location.address, currentYear, event.target.value, index, element[mainPollutant].aqi, typeOfPollution(valueMainPollutant)[0], mainPollutant.toUpperCase(), [element.location.latitude, element.location.longitude])
                     }} style={{ display: "table-row", }}>
                       <div style={{ display: "table-cell", paddingTop: "3px", paddingBottom: "3px", verticalAlign: "middle" }}>
                         <td><div style={{ borderRadius: "50%", width: "100%", height: "100%", verticalAlign: "middle", backgroundColor: typeOfPollution(valueMainPollutant)[0], color: typeOfPollution(valueMainPollutant)[0] }}>.....</div></td>
@@ -364,7 +369,6 @@ function MapSidebar(props) {
         }
       });
       dataNew.forEach(element => {
-        console.log(element)
         for (let i = 0; i < 12; i++) {
           if (element.date.month === i + 1) {
             dataNew_no2[i] = element.no2.aqi
@@ -451,9 +455,10 @@ function MapSidebar(props) {
     setChartData3(newData3);
   };
 
-  function handleClickTable(name, year, month, index, aqi, color, mainPollutant) {
+  function handleClickTable(name, year, month, index, aqi, color, mainPollutant, latLng) {
     setActiveDiv(mainPollutant)
     handleSelectChange(name, year, month)
+    setCurrentLatLng(latLng)
     setOptionsBarChart(
       {
         plugins: {
@@ -527,6 +532,7 @@ function MapSidebar(props) {
   const [activeDiv, setActiveDiv] = useState('TSP');
   const [searchInput, setSearchInput] = useState("");
 
+  const [currentLatLng, setCurrentLatLng] = useState([]);
   const [currentAddress, setCurrentAddress] = useState("");
   const [currentYear, setCurrentYear] = useState(props.selectedYear);
   const [currentMonth, setCurrentMonth] = useState(props.selectedMonth);
@@ -543,6 +549,7 @@ function MapSidebar(props) {
   const handleClose = () => {
     setShow(false);
     setSearchInput("")
+    setCurrentLatLng([])
     setCurrentYear(props.selectedYear)
     setCurrentMonth(props.selectedMonth)
     setCurrentAddress('')
@@ -906,6 +913,11 @@ function MapSidebar(props) {
                           </Row>
                         </Container>
                       </Modal.Body>
+                      <Modal.Footer>
+                        <Button variant="primary" onClick={()=>{LocationMarker();handleClose()}}>
+                          Save Changes
+                        </Button>
+                      </Modal.Footer>
                     </Modal>
                   </Accordion.Item>
                 </Accordion>

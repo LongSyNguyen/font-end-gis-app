@@ -598,6 +598,21 @@ function Mapbody(props) {
   }, [props.center]);
   // end handle select tỉnh thành
 
+  let latLng = props.selectedLatLng
+  const locateMarker = () => {
+    if (mapRef.current && latLng.length !== 0) {
+      mapRef.current.flyTo(latLng, 15, {
+        animate: true,
+        duration: 1,
+        easeLinearity: 0.5,
+      });
+    }
+  };
+  useEffect(() => {
+    locateMarker();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.selectedLatLng]);
+
   if (props.selectedDataType === 'excel') {
     const markers = marker(props.data, props.selectedDataType, props.typeOfPollutions, banDoHanhChinhHanam, props.listOfYear, props.listOfMonth);
 
