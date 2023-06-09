@@ -1,6 +1,6 @@
-import { MapContainer, TileLayer, Marker, GeoJSON, useMapEvents, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, GeoJSON } from 'react-leaflet';
 import { useRef, useEffect, useState } from 'react';
-import L, { point } from 'leaflet';
+import L from 'leaflet';
 import "leaflet/dist/leaflet.css";
 import "./Mapbody.scss";
 import Legend from 'components/Legend';
