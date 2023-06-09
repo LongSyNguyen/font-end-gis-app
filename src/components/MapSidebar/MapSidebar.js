@@ -915,7 +915,7 @@ function MapSidebar(props) {
                       </Modal.Body>
                       <Modal.Footer>
                         <Button variant="primary" onClick={()=>{LocationMarker();handleClose()}}>
-                          Save Changes
+                          Đi tới địa điểm này
                         </Button>
                       </Modal.Footer>
                     </Modal>
