@@ -16,27 +16,39 @@ function App() {
 
     const formattedDate = `${year}-${month}-${day}`;
 
-    const fecthAPi = (dataType) => {
+    const fecthAPi = (dataType, timeLine) => {
         if (dataType === '') {
             setApi({})
             return;
         }
         if (dataType === 'weatherApi') {
             axios.get(`https://environment-admin.onrender.com/api/v1/open-api/openweathermap/airs/filter?fromdate=${formattedDate}&todate=${formattedDate}`)
-            // axios.get(`https://environment-admin.onrender.com/api/v1/open-api/openweathermap/airs/filter?fromdate=2023-5-21&todate=2023-5-21`)
-            .then((response) => {
-                    setApi(response.data);
-                })
-                .catch(error => console.error(error))
-            return;
-
-        }if (dataType === 'excel') {
-            axios.get(`https://environment-admin.onrender.com/api/v1/stations/airs/`)
+                // axios.get(`https://environment-admin.onrender.com/api/v1/open-api/openweathermap/airs/filter?fromdate=2023-5-21&todate=2023-5-21`)
                 .then((response) => {
                     setApi(response.data);
                 })
                 .catch(error => console.error(error))
             return;
+
+        }
+        if (dataType === 'excel') {
+            if (timeLine.length !== 0) {
+                axios.get(`https://environment-admin.onrender.com/api/v1/stations/airs/filter?fromdate=${(timeLine[0].split('/'))[1]}-${(timeLine[0].split('/'))[0]}&todate=${(timeLine[1].split('/'))[1]}-${(timeLine[1].split('/'))[0]}`)
+                    .then((response) => {
+                        setApi(response.data);
+                    })
+                    .catch(error => console.error(error))
+                return;
+            }
+            else {
+                axios.get(`https://environment-admin.onrender.com/api/v1/stations/airs/filter?fromdate=2020-12&todate=2021-1`)
+                    .then((response) => {
+                        console.log(timeLine);
+                        setApi(response.data);
+                    })
+                    .catch(error => console.error(error))
+                return;
+            }
         }
 
     }

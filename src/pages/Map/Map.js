@@ -2,15 +2,15 @@ import MapNav from 'components/MapNav';
 import { Spinner } from 'react-bootstrap';
 import Mapbody from 'components/Mapbody';
 import MapSidebar from 'components/MapSidebar';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './Map.scss';
+import { format, addMonths } from 'date-fns';
 
 
 function Map(props) {
-
     let api = props.data
     const callApiDefault = () => {
-        props.callApi('')
+        props.callApi('', timeLine)
         api = {}
     }
     const [toggleMenu, setToggleMenu] = useState(false);
@@ -20,12 +20,13 @@ function Map(props) {
 
     const [selectedDataType, setSelectedDataType] = useState('excel');
     const [pollutionState, setPollutionState] = useState([]);
+    const [timeLine, setTimeLine] = useState([]);
     const [selectedYear, setSelectedYear] = useState('');
     const [selectedMonth, setSelectedMonth] = useState('');
     const [eventUserAddresss, setEventUserAddress] = useState('Tỉnh Hà Nam');
     const [centerLatLng, setcenterLatLng] = useState([20.583520, 105.922990]);
     const [selectedLatLng, setSelectedLatLng] = useState([]);
-    const handleSelectLatLng = (LatLng,selectedYear,selectedMonth) => {
+    const handleSelectLatLng = (LatLng, selectedYear, selectedMonth) => {
         setSelectedLatLng(LatLng);
         setSelectedYear(selectedYear)
         setSelectedMonth(selectedMonth)
@@ -41,8 +42,26 @@ function Map(props) {
             setcenterLatLng([21.028511, 105.804817])
         }
     }
+    const handleOptionChange = (event, type) => {
+        if (type === "tỉnh") {
+            setEventUserAddress("Tỉnh " + event.target.value);
+            setcenterLatLng([event.target.options[event.target.selectedIndex].dataset.lat, event.target.options[event.target.selectedIndex].dataset.lng]);
+        }
+        if (type === "") {
+            const nextMonthDate = addMonths(event, 1);
+            const formattedNextMonthDate = format(nextMonthDate, 'M/yyyy');
+            const formattedDate = format(event, 'M/yyyy');
+            setSelectedMonth(formattedDate.split('/')[0])
+            setSelectedYear(formattedDate.split('/')[1])
+            setTimeLine([formattedDate, formattedNextMonthDate])
+        }
+    };
+    useEffect(() => {
+            props.callApi(selectedDataType, timeLine)
+    }, [selectedDataType,timeLine]);
+
     if (Object.keys(api).length === 0) {
-        props.callApi(selectedDataType)
+        props.callApi(selectedDataType, timeLine)
         return (
             <div className="d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
                 <span className="sr-only">Loading...</span>
@@ -51,7 +70,7 @@ function Map(props) {
             </div>
         );
     }
-    else {
+    if (Object.keys(api).length !== 0) {
         function handle(api) {
             let conscious = {};
             let year = []
@@ -100,18 +119,7 @@ function Map(props) {
                 alert("chọn ít nhất 1 giá trị cho kiểu dữ liệu ")
             }
         }
-        const handleOptionChange = (event, type) => {
-            if (type === "tỉnh") {
-                setEventUserAddress("Tỉnh " + event.target.value);
-                setcenterLatLng([event.target.options[event.target.selectedIndex].dataset.lat, event.target.options[event.target.selectedIndex].dataset.lng]);
-            }
-            if (type === "year") {
-                setSelectedYear(event.target.value)
-            }
-            if (type === "month") {
-                setSelectedMonth(event.target.value)
-            }
-        };
+
         function filterDataByAddress(dataInput, addressInput) {
             const points = [];
 
@@ -153,11 +161,11 @@ function Map(props) {
 
                             {toggleMenu ? <div className="body-wrapper open">
                                 <MapSidebar className="open" handleSelectLatLng={handleSelectLatLng} data={dataMap} listOfYear={year} listOfMonth={month} selectedYear={selectedYear} selectedMonth={selectedMonth} conscious={conscious} onOptionChange={handleOptionChange} onTypeChange={handleTypeChange} selectedDataType={selectedDataType} onDataTypeChange={handleDataTypeChange} typeOfPollutions={pollutionState} />
-                                <Mapbody data={dataMap} selectedLatLng ={selectedLatLng} listOfYear={year} listOfMonth={month} selectedMonth={selectedMonth} selectedYear={selectedYear} center={centerLatLng} typeOfPollutions={pollutionState} selectedDataType={selectedDataType} callApi={callApiDefault} />
+                                <Mapbody data={dataMap} selectedLatLng={selectedLatLng} listOfYear={year} listOfMonth={month} selectedMonth={selectedMonth} selectedYear={selectedYear} center={centerLatLng} typeOfPollutions={pollutionState} selectedDataType={selectedDataType} callApi={callApiDefault} />
                             </div> :
                                 <div className="body-wrapper close">
                                     <MapSidebar className="close" handleSelectLatLng={handleSelectLatLng} data={dataMap} listOfYear={year} listOfMonth={month} selectedYear={selectedYear} selectedMonth={selectedMonth} conscious={conscious} onOptionChange={handleOptionChange} onTypeChange={handleTypeChange} selectedDataType={selectedDataType} onDataTypeChange={handleDataTypeChange} typeOfPollutions={pollutionState} />
-                                    <Mapbody data={dataMap} selectedLatLng ={selectedLatLng} listOfYear={year} listOfMonth={month} selectedMonth={selectedMonth} selectedYear={selectedYear} center={centerLatLng} typeOfPollutions={pollutionState} selectedDataType={selectedDataType} callApi={callApiDefault} />
+                                    <Mapbody data={dataMap} selectedLatLng={selectedLatLng} listOfYear={year} listOfMonth={month} selectedMonth={selectedMonth} selectedYear={selectedYear} center={centerLatLng} typeOfPollutions={pollutionState} selectedDataType={selectedDataType} callApi={callApiDefault} />
                                 </div>}
                         </div>
                     );
@@ -174,11 +182,11 @@ function Map(props) {
                             <MapNav controlSidebar={controlSidebar} />
                             {toggleMenu ? <div className="body-wrapper open">
                                 <MapSidebar className="open" handleSelectLatLng={handleSelectLatLng} data={dataMap} listOfYear={year} listOfMonth={month} selectedYear={selectedYear} selectedMonth={selectedMonth} conscious={conscious} onOptionChange={handleOptionChange} onTypeChange={handleTypeChange} selectedDataType={selectedDataType} onDataTypeChange={handleDataTypeChange} typeOfPollutions={pollutionState} />
-                                <Mapbody data={dataMap} selectedLatLng ={selectedLatLng} listOfYear={year} listOfMonth={month} selectedMonth={selectedMonth} selectedYear={selectedYear} center={centerLatLng} typeOfPollutions={pollutionState} selectedDataType={selectedDataType} callApi={callApiDefault} />
+                                <Mapbody data={dataMap} selectedLatLng={selectedLatLng} listOfYear={year} listOfMonth={month} selectedMonth={selectedMonth} selectedYear={selectedYear} center={centerLatLng} typeOfPollutions={pollutionState} selectedDataType={selectedDataType} callApi={callApiDefault} />
                             </div> :
                                 <div className="body-wrapper close">
                                     <MapSidebar className="close" handleSelectLatLng={handleSelectLatLng} data={dataMap} listOfYear={year} listOfMonth={month} selectedYear={selectedYear} selectedMonth={selectedMonth} conscious={conscious} onOptionChange={handleOptionChange} onTypeChange={handleTypeChange} selectedDataType={selectedDataType} onDataTypeChange={handleDataTypeChange} typeOfPollutions={pollutionState} />
-                                    <Mapbody data={dataMap} selectedLatLng ={selectedLatLng} listOfYear={year} listOfMonth={month} selectedMonth={selectedMonth} selectedYear={selectedYear} center={centerLatLng} typeOfPollutions={pollutionState} selectedDataType={selectedDataType} callApi={callApiDefault} />
+                                    <Mapbody data={dataMap} selectedLatLng={selectedLatLng} listOfYear={year} listOfMonth={month} selectedMonth={selectedMonth} selectedYear={selectedYear} center={centerLatLng} typeOfPollutions={pollutionState} selectedDataType={selectedDataType} callApi={callApiDefault} />
                                 </div>}
                         </div>
                     );

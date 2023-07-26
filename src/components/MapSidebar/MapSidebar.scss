@@ -5,6 +5,10 @@
   background-color: rgb(255, 255, 255);
 }
 
+div.react-datepicker-popper{
+  z-index: 1000;
+}
+
 .sidebar-logo {
   padding: 0.3vw;
   text-align: center;
@@ -64,10 +68,6 @@ h2.cus button.accordion-button.collapsed {
     height: 80%;
     width: 100%;
   }
-}
-
-.accordion-item-toggle-body1 {
-  margin-bottom: -10%;
 }
 
 .sidebar-menu-items .accordion-item-toggle .accordion-item-toggle-body select.form-select {

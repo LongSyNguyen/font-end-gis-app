@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from 'react';
 import { Modal, Container, Row, Col, Button } from "react-bootstrap";
 import { Bar, Doughnut } from 'react-chartjs-2';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 import {
   Chart as ChartJS,
@@ -52,7 +54,7 @@ function MapSidebar(props) {
   };
   function LocationMarker() {
     if (currentLatLng.length !== 0) {
-      props.handleSelectLatLng(currentLatLng,currentYear,currentMonth );
+      props.handleSelectLatLng(currentLatLng, currentYear, currentMonth);
     }
   }
   const userActive = (event, type) => {
@@ -796,22 +798,27 @@ function MapSidebar(props) {
             {props.selectedDataType === 'excel' && (
               <Accordion.Body className="accordion-item-toggle-body">
                 <p>dữ liệu hiện thị cho:<br /> tháng {props.selectedMonth} năm {props.selectedYear}<br /> {Object.keys(props.typeOfPollutions).filter(key => props.typeOfPollutions[key].state === "1").map(key => key.toUpperCase()).join(", ")} </p>
-                <Form.Select onChange={(event) => handleOptionChange(event, "year")}>
-                  <option disabled selected>chọn năm</option>
-                  {Object.values(props.listOfYear).map((value) => (
-                    <option value={value}>{value}</option>
-                  ))}
-                </Form.Select>
-                <Form.Select onChange={(event) => handleOptionChange(event, "month")}>
-                  <option disabled selected>chọn tháng</option>
-                  {Object.values(props.listOfMonth).map((value) => (
-                    <option value={value}>{value}</option>
-                  ))}
-                </Form.Select>
+                <Accordion style={{ marginTop: '5px' }}>
+                  <Accordion.Item eventKey="0" className="accordion-item-toggle1">
+                    <Accordion.Header className="cus">Khoảng thời gian</Accordion.Header>
+                    <Accordion.Body className="accordion-item-toggle-body">
+                      <DatePicker
+                        selected={new Date(parseInt(props.selectedYear, 10), parseInt(props.selectedMonth, 10) - 1)}
+                        onChange={(event) => handleOptionChange(event, "")}
+                        showMonthYearPicker
+                        dateFormat="MM/yyyy"
+                        className="form-control"
+                        minDate={new Date(2018, 0)}
+                        maxDate={new Date(2020, 11)}
+                      />
+                    </Accordion.Body>
+
+                  </Accordion.Item>
+                </Accordion>
                 <Accordion style={{ marginTop: '5px' }}>
                   <Accordion.Item eventKey="0" className="accordion-item-toggle1">
                     <Accordion.Header className="cus">Chọn kiểu dữ liệu</Accordion.Header>
-                    <Accordion.Body className="accordion-item-toggle-body1">
+                    <Accordion.Body className="accordion-item-toggle-body">
                       {Object.entries(props.typeOfPollutions).map(([key, value]) => (
                         <div className="form-check form-switch">
                           {
@@ -823,9 +830,9 @@ function MapSidebar(props) {
                         </div>
                       ))}
                     </Accordion.Body>
-
                   </Accordion.Item>
                 </Accordion>
+
                 <Accordion style={{ marginTop: '5px' }}>
                   <Accordion.Item eventKey="0" className="accordion-item-toggle1">
                     <Accordion.Header className="cus" onClick={() => handleShow()}>Thống kê</Accordion.Header>
@@ -914,7 +921,7 @@ function MapSidebar(props) {
                         </Container>
                       </Modal.Body>
                       <Modal.Footer>
-                        <Button variant="primary" onClick={()=>{LocationMarker();handleClose()}}>
+                        <Button variant="primary" onClick={() => { LocationMarker(); handleClose() }}>
                           Đi tới địa điểm này
                         </Button>
                       </Modal.Footer>
