@@ -9,6 +9,7 @@ import { useState } from 'react';
 
 function App() {
     const [api, setApi] = useState({});
+    const [dataYear, setDataYear] = useState({});
     const currentDate = new Date();
     const year = currentDate.getFullYear();
     const month = String(currentDate.getMonth() + 1).padStart(2, '0');
@@ -16,27 +17,49 @@ function App() {
 
     const formattedDate = `${year}-${month}-${day}`;
 
-    const fecthAPi = (dataType) => {
+    const fecthAPi = (dataType, timeLine) => {
         if (dataType === '') {
             setApi({})
             return;
         }
         if (dataType === 'weatherApi') {
             axios.get(`https://environment-admin.onrender.com/api/v1/open-api/openweathermap/airs/filter?fromdate=${formattedDate}&todate=${formattedDate}`)
-            // axios.get(`https://environment-admin.onrender.com/api/v1/open-api/openweathermap/airs/filter?fromdate=2023-5-21&todate=2023-5-21`)
-            .then((response) => {
-                    setApi(response.data);
-                })
-                .catch(error => console.error(error))
-            return;
-
-        }if (dataType === 'excel') {
-            axios.get(`https://environment-admin.onrender.com/api/v1/stations/airs/`)
+                // axios.get(`https://environment-admin.onrender.com/api/v1/open-api/openweathermap/airs/filter?fromdate=2023-5-21&todate=2023-5-21`)
                 .then((response) => {
                     setApi(response.data);
                 })
                 .catch(error => console.error(error))
             return;
+
+        }
+        if (dataType === 'year') {
+
+            axios.get(`https://environment-admin.onrender.com/api/v1/stations/airs/filter?fromdate=${timeLine}-1&todate=${parseInt(timeLine)+1}-1`)
+                .then((response) => {
+                    setDataYear(response.data);
+
+                })
+                .catch(error => console.error(error))
+            return;
+
+        }
+        if (dataType === 'excel') {
+            if (timeLine.length !== 0) {
+                axios.get(`https://environment-admin.onrender.com/api/v1/stations/airs/filter?fromdate=${(timeLine[0].split('/'))[1]}-${(timeLine[0].split('/'))[0]}&todate=${(timeLine[1].split('/'))[1]}-${(timeLine[1].split('/'))[0]}`)
+                    .then((response) => {
+                        setApi(response.data);
+                    })
+                    .catch(error => console.error(error))
+                return;
+            }
+            else {
+                axios.get(`https://environment-admin.onrender.com/api/v1/stations/airs/filter?fromdate=2020-12&todate=2021-1`)
+                    .then((response) => {
+                        setApi(response.data);
+                    })
+                    .catch(error => console.error(error))
+                return;
+            }
         }
 
     }
@@ -44,7 +67,7 @@ function App() {
         <Router>
             <Routes>
                 <Route exact path="/" element={<Home callApi={fecthAPi} />} />
-                <Route exact path="/map" element={<Map callApi={fecthAPi} data={api} />} />
+                <Route exact path="/map" element={<Map callApi={fecthAPi} data={api} dataYear={dataYear}/>} />
             </Routes>
         </Router>
     );

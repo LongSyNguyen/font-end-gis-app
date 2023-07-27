@@ -1,9 +1,13 @@
 import "./MapSidebar.scss";
 import { Accordion, Form } from "react-bootstrap";
+import axios from 'axios';
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from 'react';
 import { Modal, Container, Row, Col, Button } from "react-bootstrap";
 import { Bar, Doughnut } from 'react-chartjs-2';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { format } from 'date-fns';
 
 import {
   Chart as ChartJS,
@@ -26,11 +30,28 @@ ChartJS.register(
 );
 
 function MapSidebar(props) {
-  const data_all = props.data
-  const list_months = props.listOfMonth
-  list_months.sort(function (a, b) {
-    return a - b;
-  });
+  const data_year = props.dataYear
+  const callApiYear = () => {
+    for (let index = 0; index < Object.keys(data_year).length; index++) {
+      let month = index + 1
+      if (month === 12) {
+        axios.get(`https://environment-admin.onrender.com/api/v1/stations/airs/filter?fromdate=${currentYear}-${12}&todate=${parseInt(currentYear) + 1}-${1}`)
+          .then((response) => {
+
+            data_year[month] = response.data
+          })
+          .catch(error => console.error(error))
+      }
+      else {
+        axios.get(`https://environment-admin.onrender.com/api/v1/stations/airs/filter?fromdate=${currentYear}-${month}&todate=${parseInt(currentYear)}-${month + 1}`)
+          .then((response) => {
+            data_year[month] = response.data
+          })
+          .catch(error => console.error(error))
+      }
+    }
+
+  };
   function getBackgroundColor(value) {
     if (value === 1) {
       return '#4cb84c';
@@ -52,302 +73,112 @@ function MapSidebar(props) {
   };
   function LocationMarker() {
     if (currentLatLng.length !== 0) {
-      props.handleSelectLatLng(currentLatLng);
+      props.handleSelectLatLng(currentLatLng, currentYear, currentMonth);
     }
   }
-  const userActive = (event, type) => {
-    if (type === 'search') {
-      setSearchInput("")
-      setCurrentYear(props.selectedYear)
-      setCurrentMonth(props.selectedMonth)
-      setCurrentAddress('')
-      setOptionsBarChart({
-        plugins: {
-          legend: {
-            display: false,
-          },
-          title: {
-            display: false,
-          }
+  const userActive = () => {
+
+    setCurrentAddress('')
+    setOptionsBarChart({
+      plugins: {
+        legend: {
+          display: false,
         },
-        scales: {
-          y: {
-            beginAtZero: true,
-            max: 500,
-            ticks: {
-              stepSize: 50,
-            }
+        title: {
+          display: false,
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 500,
+          ticks: {
+            stepSize: 50,
           }
         }
-      })
-      event.preventDefault();
-      setSearchInput(event.target.value)
-      setShowModal(
-        <div>
-          <table style={{ borderCollapse: 'separate', borderSpacing: 0, width: "100%" }}>
-            <colgroup>
-              <col style={{ width: "7%" }} />
-              <col style={{ width: "63%" }} />
-              <col style={{ width: "10%" }} />
-              <col style={{ width: "20%" }} />
-            </colgroup>
-            <thead>
-              <tr>
-                <th colSpan={2} style={{ position: 'sticky', top: 0, borderBottom: 'solid 1px black', backgroundColor: '#eae3e3' }}>Name</th>
-                <th style={{ position: 'sticky', top: 0, borderBottom: 'solid 1px black', backgroundColor: '#eae3e3' }}>AQI</th>
-                <th style={{ position: 'sticky', top: 0, borderBottom: 'solid 1px black', backgroundColor: '#eae3e3' }}>chất lượng</th>
-              </tr>
-            </thead>
-            <tbody>
-              {props.data.map((element, index) => {
+      }
+    })
+    setShowModal(
+      <div>
+        <table style={{ borderCollapse: 'separate', borderSpacing: 0, width: "100%" }}>
+          <colgroup>
+            <col style={{ width: "7%" }} />
+            <col style={{ width: "63%" }} />
+            <col style={{ width: "10%" }} />
+            <col style={{ width: "20%" }} />
+          </colgroup>
+          <thead>
+            <tr>
+              <th colSpan={2} style={{ position: 'sticky', top: 0, borderBottom: 'solid 1px black', backgroundColor: '#eae3e3' }}>Name</th>
+              <th style={{ position: 'sticky', top: 0, borderBottom: 'solid 1px black', backgroundColor: '#eae3e3' }}>AQI</th>
+              <th style={{ position: 'sticky', top: 0, borderBottom: 'solid 1px black', backgroundColor: '#eae3e3' }}>chất lượng</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              props.dataYear[currentMonth].map((element, index) => {
                 if (
                   // eslint-disable-next-line
                   element.date.year == currentYear &&
-                  // eslint-disable-next-line
-                  element.date.month == currentMonth &&
-                  element.location.address.match(event.target.value)
-                ) {
-                  var mainPollutant = ''
-                  var valueMainPollutant = 0
-                  for (let index = 3; index < 5; index++) {
-                    const key = Object.keys(element)[index];
-                    if (mainPollutant === '') {
-                      mainPollutant = key
-                      valueMainPollutant = element[key].result
-                    }
-                    else {
-                      if (valueMainPollutant < element[key].result) {
-                        valueMainPollutant = element[key].result
-                      }
-                    }
-                  }
-                  return (
-                    <div className={'table-row'} id={index.toString()} onClick={() => {
-                      handleClickTable(element.location.address, currentYear, currentMonth, index, element[mainPollutant].aqi, typeOfPollution(valueMainPollutant)[0], mainPollutant.toUpperCase(), [element.location.latitude, element.location.longitude])
-                    }} style={{ display: "table-row", }}>
-                      <div style={{ display: "table-cell", paddingTop: "3px", paddingBottom: "3px", verticalAlign: "middle" }}>
-                        <td><div style={{ borderRadius: "50%", width: "100%", height: "100%", verticalAlign: "middle", backgroundColor: typeOfPollution(valueMainPollutant)[0], color: typeOfPollution(valueMainPollutant)[0] }}>.....</div></td>
-                      </div>
-                      <div style={{ display: "table-cell", paddingTop: "3px", paddingBottom: "3px", verticalAlign: "middle" }}>
-                        <td>{element.location.address}</td>
-                      </div>
-                      <div style={{ display: "table-cell", paddingTop: "3px", paddingBottom: "3px", verticalAlign: "middle" }}>
-                        <td>{element[mainPollutant].aqi}</td>
-                      </div>
-                      <div style={{ display: "table-cell", paddingTop: "3px", paddingBottom: "3px", verticalAlign: "middle" }}>
-                        <td>{typeOfPollution(valueMainPollutant)[2]}</td>
-                      </div>
-                    </div>
-
-                  );
-                }
-                return null;
-              })}
-            </tbody>
-          </table>
-        </div>
-      );
-    }
-    if (type === 'year') {
-      setSearchInput("")
-      setCurrentYear(props.selectedYear)
-      setCurrentMonth(props.selectedMonth)
-      setCurrentAddress('')
-      setOptionsBarChart({
-        plugins: {
-          legend: {
-            display: false,
-          },
-          title: {
-            display: false,
-          }
-        },
-        scales: {
-          y: {
-            beginAtZero: true,
-            max: 500,
-            ticks: {
-              stepSize: 50,
-            }
-          }
-        }
-      })
-      setCurrentYear(event.target.value)
-      document.getElementById("month")
-      setShowModal(
-        <div>
-          <table style={{ borderCollapse: 'separate', borderSpacing: 0, width: "100%" }}>
-            <colgroup>
-              <col style={{ width: "7%" }} />
-              <col style={{ width: "63%" }} />
-              <col style={{ width: "10%" }} />
-              <col style={{ width: "20%" }} />
-            </colgroup>
-            <thead>
-              <tr>
-                <th colSpan={2} style={{ position: 'sticky', top: 0, borderBottom: 'solid 1px black', backgroundColor: '#eae3e3' }}>Name</th>
-                <th style={{ position: 'sticky', top: 0, borderBottom: 'solid 1px black', backgroundColor: '#eae3e3' }}>AQI</th>
-                <th style={{ position: 'sticky', top: 0, borderBottom: 'solid 1px black', backgroundColor: '#eae3e3' }}>chất lượng</th>
-              </tr>
-            </thead>
-            <tbody>
-              {props.data.map((element, index) => {
-                if (
-                  // eslint-disable-next-line
-                  element.date.year == event.target.value &&
                   // eslint-disable-next-line
                   element.date.month == currentMonth
                 ) {
-                  var mainPollutant = ''
-                  var valueMainPollutant = 0
-                  for (let index = 3; index < 5; index++) {
-                    const key = Object.keys(element)[index];
-                    if (mainPollutant === '') {
-                      mainPollutant = key
+                var mainPollutant = ''
+                var valueMainPollutant = 0
+                for (let index = 3; index < 5; index++) {
+                  const key = Object.keys(element)[index];
+                  if (mainPollutant === '') {
+                    mainPollutant = key
+                    valueMainPollutant = element[key].result
+                  }
+                  else {
+                    if (valueMainPollutant < element[key].result) {
                       valueMainPollutant = element[key].result
                     }
-                    else {
-                      if (valueMainPollutant < element[key].result) {
-                        valueMainPollutant = element[key].result
-                      }
-                    }
                   }
-                  return (
-                    <div className={'table-row'} id={index.toString()} onClick={() => {
-                      handleClickTable(element.location.address, event.target.value, currentMonth, index, element[mainPollutant].aqi, typeOfPollution(valueMainPollutant)[0], mainPollutant.toUpperCase(), [element.location.latitude, element.location.longitude])
-                    }} style={{ display: "table-row", }}>
-                      <div style={{ display: "table-cell", paddingTop: "3px", paddingBottom: "3px", verticalAlign: "middle" }}>
-                        <td><div style={{ borderRadius: "50%", width: "100%", height: "100%", verticalAlign: "middle", backgroundColor: typeOfPollution(valueMainPollutant)[0], color: typeOfPollution(valueMainPollutant)[0] }}>.....</div></td>
-                      </div>
-                      <div style={{ display: "table-cell", paddingTop: "3px", paddingBottom: "3px", verticalAlign: "middle" }}>
-                        <td>{element.location.address}</td>
-                      </div>
-                      <div style={{ display: "table-cell", paddingTop: "3px", paddingBottom: "3px", verticalAlign: "middle" }}>
-                        <td>{element[mainPollutant].aqi}</td>
-                      </div>
-                      <div style={{ display: "table-cell", paddingTop: "3px", paddingBottom: "3px", verticalAlign: "middle" }}>
-                        <td>{typeOfPollution(valueMainPollutant)[2]}</td>
-                      </div>
-                    </div>
-
-                  );
                 }
-                return null;
-              })}
-            </tbody>
-          </table>
-        </div>
-      );
-      if (currentAddress !== '') {
-        setOptionsBarChart(
-          {
-            plugins: {
-              legend: {
-                display: false,
-              },
-              title: {
-                display: true,
-                text: `Biểu đồ Theo dõi Chỉ số AQI ${currentAddress}`,
-                fontSize: 20
-              }
-            }
-          })
-      }
-    }
-    else if (type === 'month') {
-      setSearchInput("")
-      setCurrentYear(props.selectedYear)
-      setCurrentMonth(props.selectedMonth)
-      setCurrentAddress('')
-      setOptionsBarChart({
-        plugins: {
-          legend: {
-            display: false,
-          },
-          title: {
-            display: false,
-          }
-        },
-        scales: {
-          y: {
-            beginAtZero: true,
-            max: 500,
-            ticks: {
-              stepSize: 50,
+                return (
+                  <div className={'table-row'} id={index.toString()} onClick={() => {
+                    handleClickTable(element.location.address, currentYear, currentMonth, index, element[mainPollutant].aqi, typeOfPollution(valueMainPollutant)[0], mainPollutant.toUpperCase(), [element.location.latitude, element.location.longitude])
+                  }} style={{ display: "table-row", }}>
+                    <div style={{ display: "table-cell", paddingTop: "3px", paddingBottom: "3px", verticalAlign: "middle" }}>
+                      <td><div style={{ borderRadius: "50%", width: "100%", height: "100%", verticalAlign: "middle", backgroundColor: typeOfPollution(valueMainPollutant)[0], color: typeOfPollution(valueMainPollutant)[0] }}>.....</div></td>
+                    </div>
+                    <div style={{ display: "table-cell", paddingTop: "3px", paddingBottom: "3px", verticalAlign: "middle" }}>
+                      <td>{element.location.address}</td>
+                    </div>
+                    <div style={{ display: "table-cell", paddingTop: "3px", paddingBottom: "3px", verticalAlign: "middle" }}>
+                      <td>{element[mainPollutant].aqi}</td>
+                    </div>
+                    <div style={{ display: "table-cell", paddingTop: "3px", paddingBottom: "3px", verticalAlign: "middle" }}>
+                      <td>{typeOfPollution(valueMainPollutant)[2]}</td>
+                    </div>
+                  </div>
+
+                );
+              }})}
+          </tbody>
+        </table>
+      </div>
+    );
+    if (currentAddress !== '') {
+      setOptionsBarChart(
+        {
+          plugins: {
+            legend: {
+              display: false,
+            },
+            title: {
+              display: true,
+              text: `Biểu đồ Theo dõi Chỉ số AQI ${currentAddress}`,
+              fontSize: 20
             }
           }
-        }
-      })
-      setCurrentMonth(event.target.value)
-      setShowModal(
-        <div>
-          <table style={{ borderCollapse: 'separate', borderSpacing: 0, width: "100%" }}>
-            <colgroup>
-              <col style={{ width: "7%" }} />
-              <col style={{ width: "63%" }} />
-              <col style={{ width: "10%" }} />
-              <col style={{ width: "20%" }} />
-            </colgroup>
-            <thead>
-              <tr>
-                <th colSpan={2} style={{ position: 'sticky', top: 0, borderBottom: 'solid 1px black', backgroundColor: '#eae3e3' }}>Name</th>
-                <th style={{ position: 'sticky', top: 0, borderBottom: 'solid 1px black', backgroundColor: '#eae3e3' }}>AQI</th>
-                <th style={{ position: 'sticky', top: 0, borderBottom: 'solid 1px black', backgroundColor: '#eae3e3' }}>chất lượng</th>
-              </tr>
-            </thead>
-            <tbody>
-              {props.data.map((element, index) => {
-                if (
-                  // eslint-disable-next-line
-                  element.date.year == currentYear &&
-                  // eslint-disable-next-line
-                  element.date.month == event.target.value
-                ) {
-                  var mainPollutant = ''
-                  var valueMainPollutant = 0
-                  for (let index = 3; index < 5; index++) {
-                    const key = Object.keys(element)[index];
-                    if (mainPollutant === '') {
-                      mainPollutant = key
-                      valueMainPollutant = element[key].result
-                    }
-                    else {
-                      if (valueMainPollutant < element[key].result) {
-                        valueMainPollutant = element[key].result
-                      }
-                    }
-                  }
-                  return (
-                    <div className={'table-row'} id={index.toString()} onClick={() => {
-                      handleClickTable(element.location.address, currentYear, event.target.value, index, element[mainPollutant].aqi, typeOfPollution(valueMainPollutant)[0], mainPollutant.toUpperCase(), [element.location.latitude, element.location.longitude])
-                    }} style={{ display: "table-row", }}>
-                      <div style={{ display: "table-cell", paddingTop: "3px", paddingBottom: "3px", verticalAlign: "middle" }}>
-                        <td><div style={{ borderRadius: "50%", width: "100%", height: "100%", verticalAlign: "middle", backgroundColor: typeOfPollution(valueMainPollutant)[0], color: typeOfPollution(valueMainPollutant)[0] }}>.....</div></td>
-                      </div>
-                      <div style={{ display: "table-cell", paddingTop: "3px", paddingBottom: "3px", verticalAlign: "middle" }}>
-                        <td>{element.location.address}</td>
-                      </div>
-                      <div style={{ display: "table-cell", paddingTop: "3px", paddingBottom: "3px", verticalAlign: "middle" }}>
-                        <td>{element[mainPollutant].aqi}</td>
-                      </div>
-                      <div style={{ display: "table-cell", paddingTop: "3px", paddingBottom: "3px", verticalAlign: "middle" }}>
-                        <td>{typeOfPollution(valueMainPollutant)[2]}</td>
-                      </div>
-                    </div>
-
-                  );
-                }
-                return null;
-              })}
-            </tbody>
-          </table>
-        </div>
-      );
-
+        })
     }
+
   }
   const handleSelectChange = (address = currentAddress, year = currentYear, month = currentMonth) => {
-
     let newData1;
     let newData2;
     let newData3;
@@ -362,12 +193,16 @@ function MapSidebar(props) {
 
       const borderColorArray = Array(12).fill('white');
       borderColorArray[parseInt(month) - 1] = '#000000';
+      for (let index = 1; index < Object.keys(data_year).length + 1; index++) {
+        for (let i = 0; i < data_year[index].length; i++) {
+          const element = data_year[index][i];
 
-      data_all.forEach(element => {
-        if (element.date.year === parseInt(year) && element.location.address === address) {
-          dataNew.push(element)
+          if (element.location.address === address) {
+            dataNew.push(element)
+          }
         }
-      });
+
+      }
       dataNew.forEach(element => {
         for (let i = 0; i < 12; i++) {
           if (element.date.month === i + 1) {
@@ -382,7 +217,7 @@ function MapSidebar(props) {
       })
 
       newData1 = {
-        labels: list_months,
+        labels: Object.keys(data_year),
         datasets: [
           {
             label: 'NO2',
@@ -394,7 +229,7 @@ function MapSidebar(props) {
         ],
       }
       newData2 = {
-        labels: list_months,
+        labels: Object.keys(data_year),
         datasets: [
           {
             label: 'SO2',
@@ -406,7 +241,7 @@ function MapSidebar(props) {
         ],
       }
       newData3 = {
-        labels: list_months,
+        labels: Object.keys(data_year),
         datasets: [
           {
             label: 'TSP',
@@ -420,7 +255,7 @@ function MapSidebar(props) {
     }
     else {
       newData1 = {
-        labels: list_months,
+        labels: Object.keys(data_year),
         datasets: [
           {
             label: 'NO2',
@@ -430,7 +265,7 @@ function MapSidebar(props) {
         ],
       }
       newData2 = {
-        labels: list_months,
+        labels: Object.keys(data_year),
         datasets: [
           {
             label: 'NO2',
@@ -440,7 +275,7 @@ function MapSidebar(props) {
         ],
       }
       newData3 = {
-        labels: list_months,
+        labels: Object.keys(data_year),
         datasets: [
           {
             label: 'NO2',
@@ -530,13 +365,11 @@ function MapSidebar(props) {
   }
 
   const [activeDiv, setActiveDiv] = useState('TSP');
-  const [searchInput, setSearchInput] = useState("");
 
   const [currentLatLng, setCurrentLatLng] = useState([]);
   const [currentAddress, setCurrentAddress] = useState("");
   const [currentYear, setCurrentYear] = useState(props.selectedYear);
   const [currentMonth, setCurrentMonth] = useState(props.selectedMonth);
-
   // handle user clicks fast
   const [status, setStatus] = useState();
   const [timer, countdown] = useState();
@@ -548,7 +381,6 @@ function MapSidebar(props) {
   const [show, setShow] = useState(false);
   const handleClose = () => {
     setShow(false);
-    setSearchInput("")
     setCurrentLatLng([])
     setCurrentYear(props.selectedYear)
     setCurrentMonth(props.selectedMonth)
@@ -705,7 +537,50 @@ function MapSidebar(props) {
               <th style={{ position: 'sticky', top: 0, borderBottom: 'solid 1px black', backgroundColor: '#eae3e3' }}>chất lượng</th>
             </tr>
           </thead>
+          <tbody>
+            {
+              props.dataYear[currentMonth].map((element, index) => {
+                if (
+                  // eslint-disable-next-line
+                  element.date.year == currentYear &&
+                  // eslint-disable-next-line
+                  element.date.month == currentMonth
+                ) {
+                var mainPollutant = ''
+                var valueMainPollutant = 0
+                for (let index = 3; index < 5; index++) {
+                  const key = Object.keys(element)[index];
+                  if (mainPollutant === '') {
+                    mainPollutant = key
+                    valueMainPollutant = element[key].result
+                  }
+                  else {
+                    if (valueMainPollutant < element[key].result) {
+                      valueMainPollutant = element[key].result
+                    }
+                  }
+                }
+                return (
+                  <div className={'table-row'} id={index.toString()} onClick={() => {
+                    handleClickTable(element.location.address, currentYear, currentMonth, index, element[mainPollutant].aqi, typeOfPollution(valueMainPollutant)[0], mainPollutant.toUpperCase(), [element.location.latitude, element.location.longitude])
+                  }} style={{ display: "table-row", }}>
+                    <div style={{ display: "table-cell", paddingTop: "3px", paddingBottom: "3px", verticalAlign: "middle" }}>
+                      <td><div style={{ borderRadius: "50%", width: "100%", height: "100%", verticalAlign: "middle", backgroundColor: typeOfPollution(valueMainPollutant)[0], color: typeOfPollution(valueMainPollutant)[0] }}>.....</div></td>
+                    </div>
+                    <div style={{ display: "table-cell", paddingTop: "3px", paddingBottom: "3px", verticalAlign: "middle" }}>
+                      <td>{element.location.address}</td>
+                    </div>
+                    <div style={{ display: "table-cell", paddingTop: "3px", paddingBottom: "3px", verticalAlign: "middle" }}>
+                      <td>{element[mainPollutant].aqi}</td>
+                    </div>
+                    <div style={{ display: "table-cell", paddingTop: "3px", paddingBottom: "3px", verticalAlign: "middle" }}>
+                      <td>{typeOfPollution(valueMainPollutant)[2]}</td>
+                    </div>
+                  </div>
 
+                );
+              }})}
+          </tbody>
         </table>
       </div>
     );
@@ -754,6 +629,7 @@ function MapSidebar(props) {
     props.onTypeChange(event);
   };
 
+
   return (
     <div className="body-sidebar-wrapper" >
       <div className="sidebar-logo">
@@ -796,22 +672,27 @@ function MapSidebar(props) {
             {props.selectedDataType === 'excel' && (
               <Accordion.Body className="accordion-item-toggle-body">
                 <p>dữ liệu hiện thị cho:<br /> tháng {props.selectedMonth} năm {props.selectedYear}<br /> {Object.keys(props.typeOfPollutions).filter(key => props.typeOfPollutions[key].state === "1").map(key => key.toUpperCase()).join(", ")} </p>
-                <Form.Select onChange={(event) => handleOptionChange(event, "year")}>
-                  <option disabled selected>chọn năm</option>
-                  {Object.values(props.listOfYear).map((value) => (
-                    <option value={value}>{value}</option>
-                  ))}
-                </Form.Select>
-                <Form.Select onChange={(event) => handleOptionChange(event, "month")}>
-                  <option disabled selected>chọn tháng</option>
-                  {Object.values(props.listOfMonth).map((value) => (
-                    <option value={value}>{value}</option>
-                  ))}
-                </Form.Select>
+                <Accordion style={{ marginTop: '5px' }}>
+                  <Accordion.Item eventKey="0" className="accordion-item-toggle1">
+                    <Accordion.Header className="cus">Khoảng thời gian</Accordion.Header>
+                    <Accordion.Body className="accordion-item-toggle-body">
+                      <DatePicker
+                        selected={new Date(parseInt(props.selectedYear, 10), parseInt(props.selectedMonth, 10) - 1)}
+                        onChange={(event) => handleOptionChange(event, "")}
+                        showMonthYearPicker
+                        dateFormat="MM/yyyy"
+                        className="form-control"
+                        minDate={new Date(2018, 0)}
+                        maxDate={new Date(2020, 11)}
+                      />
+                    </Accordion.Body>
+
+                  </Accordion.Item>
+                </Accordion>
                 <Accordion style={{ marginTop: '5px' }}>
                   <Accordion.Item eventKey="0" className="accordion-item-toggle1">
                     <Accordion.Header className="cus">Chọn kiểu dữ liệu</Accordion.Header>
-                    <Accordion.Body className="accordion-item-toggle-body1">
+                    <Accordion.Body className="accordion-item-toggle-body">
                       {Object.entries(props.typeOfPollutions).map(([key, value]) => (
                         <div className="form-check form-switch">
                           {
@@ -823,55 +704,36 @@ function MapSidebar(props) {
                         </div>
                       ))}
                     </Accordion.Body>
-
                   </Accordion.Item>
                 </Accordion>
+
                 <Accordion style={{ marginTop: '5px' }}>
                   <Accordion.Item eventKey="0" className="accordion-item-toggle1">
                     <Accordion.Header className="cus" onClick={() => handleShow()}>Thống kê</Accordion.Header>
                     <Modal show={show} onHide={handleClose} size="lg" centered>
                       <Modal.Header closeButton >
-                        <Modal.Title>Modal</Modal.Title>
+                        <Modal.Title>Thống kê</Modal.Title>
                       </Modal.Header>
                       <Modal.Body >
                         {/* <Modal.Body className="show-grid"> */}
                         <Container >
                           <Row className="custom-select">
-                            <div className="search">
 
-                              <input
-                                type="text"
-                                placeholder="Search here"
-                                style={{ width: '100%' }}
-                                onChange={(event) => {
-                                  userActive(event, 'search')
-                                  handleSelectChange('')
-                                }}
-                                value={searchInput} />
-
-                            </div>
-                            <select className="year" id="year" onChange={(event) => {
-                              userActive(event, "year");
-                              handleSelectChange(currentAddress, event.target.value, currentMonth)
-                            }}>
-                              <option disabled selected>chọn năm</option>
-                              {props.listOfYear.map((year) => (
-                                <option key={year} value={year}>
-                                  Năm {year}
-                                </option>
-                              ))}
-                            </select>
-                            <select className="month" id="month" onChange={(event) => {
-                              userActive(event, "month");
-                              handleSelectChange(currentAddress, currentYear, event.target.value)
-                            }}>
-                              <option disabled selected>chọn tháng</option>
-                              {props.listOfMonth.map((month) => (
-                                <option key={month} value={month}>
-                                  Tháng {month}
-                                </option>
-                              ))}
-                            </select>
+                            <DatePicker
+                              selected={new Date(parseInt(currentYear, 10), parseInt(currentMonth, 10) - 1)}
+                              onChange={(event) => {
+                                const formattedDate = format(event, 'M/yyyy');
+                                setCurrentMonth(formattedDate.split('/')[0])
+                                setCurrentYear(formattedDate.split('/')[1])
+                                handleSelectChange(currentAddress, formattedDate.split('/')[1], formattedDate.split('/')[0])
+                                userActive(formattedDate.split('/')[1], formattedDate.split('/')[0]);
+                              }}
+                              showMonthYearPicker
+                              dateFormat="MM/yyyy"
+                              className="form-control thongke"
+                              minDate={new Date(2018, 0)}
+                              maxDate={new Date(2020, 11)}
+                            />
                           </Row>
                           <Row style={{ display: "grid" }} className="custom-modal-body">
                             <Col className="col-1" xs={7} md={8}>
@@ -914,8 +776,8 @@ function MapSidebar(props) {
                         </Container>
                       </Modal.Body>
                       <Modal.Footer>
-                        <Button variant="primary" onClick={()=>{LocationMarker();handleClose()}}>
-                          Save Changes
+                        <Button variant="primary" onClick={() => { LocationMarker(); handleClose() }}>
+                          Đi tới địa điểm này
                         </Button>
                       </Modal.Footer>
                     </Modal>
