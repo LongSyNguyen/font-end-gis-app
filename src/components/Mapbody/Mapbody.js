@@ -168,8 +168,8 @@ function Mapbody(props) {
   // tạo marker, geojson, obj data year month
   function marker(points, type, typeOfPollutions, fileGeoJSON, listOfYears = [], listOfMonths = []) {
     if (type === 'excel') {
-      let markers = {}
-      let dataMap = {}
+      let markers = []
+      let dataMap = []
       let key = []
       for (let index = 0; index < fileGeoJSON.features.length; index++) {
         const elementGeojson = fileGeoJSON.features[index];
@@ -177,49 +177,24 @@ function Mapbody(props) {
           elementGeojson.properties.NAME_3
         )
       }
-      for (let year of listOfYears) {
-        markers[year] = {};
-        dataMap[year] = {};
-        for (let month of listOfMonths) {
-          markers[year][month] = [];
-          dataMap[year][month] = [];
+
           for (let index = 0; index < fileGeoJSON.features.length; index++) {
             const elementGeojson = fileGeoJSON.features[index];
-            dataMap[year][month].push(
+            dataMap.push(
               <GeoJSON
-                key={`${year},${month},${index},''`}
-                index={index}
-                level={0}
                 name={elementGeojson.properties.NAME_3}
                 data={elementGeojson.geometry}
-                weight="2"
+                weight="0.5"
                 color='black'
                 fillColor="blue"
-                fillOpacity={0.1} />
+                fillOpacity={0.09} />
             )
-          }
-        }
       }
       for (let i = 0; i < points.length; i++) {
         const mainPollutant = typeOfPollution(typeOfPollutions, points[i])
         const color = classPoint(points[i], mainPollutant)
-        const indexDataMap = key.indexOf(points[i].location.commune.replace(/\s/g, ""))
 
-
-        if (color[5] > dataMap[points[i].date.year][points[i].date.month][indexDataMap]?.props?.level) {
-          dataMap[points[i].date.year][points[i].date.month][indexDataMap] =
-            <GeoJSON
-              key={`${points[i].date.year},${points[i].date.month},${indexDataMap},${mainPollutant[1]}`}
-              index={indexDataMap}
-              level={color[5]}
-              name={points[i].location.commune.replace(/\s/g, "")}
-              data={fileGeoJSON.features[indexDataMap].geometry}
-              weight="2"
-              color='black'
-              fillColor={color[1]}
-              fillOpacity={0.65} />
-        }
-        markers[points[i].date.year][points[i].date.month].push(
+        markers.push(
           <Marker commune={points[i].location.commune} level={color[5]} color={color[1]} id={i} position={[points[i].location.latitude, points[i].location.longitude]} icon={color[0]}
             eventHandlers={{
               click: () => {
@@ -229,14 +204,14 @@ function Mapbody(props) {
           </Marker>
         );
       }
-      for (let index = 0; index < Object.keys(markers).length; index++) {
-        const element = markers[Object.keys(markers)[index]];
-        Object.keys(element).forEach(key => {
-          if (element[key].length === 0) {
-            delete element[key];
-          }
-        });
-      }
+      // for (let index = 0; index < Object.keys(markers).length; index++) {
+      //   const element = markers[Object.keys(markers)[index]];
+      //   Object.keys(element).forEach(key => {
+      //     if (element[key].length === 0) {
+      //       delete element[key];
+      //     }
+      //   });
+      // }
       return [markers, dataMap]
     }
     else if (type === 'weatherApi') {
@@ -624,8 +599,8 @@ function Mapbody(props) {
             attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          {markers[0][props.selectedYear][props.selectedMonth]}
-          {markers[1][props.selectedYear][props.selectedMonth]}
+          {markers[0]}
+          {markers[1]}
           <Legend />
         </MapContainer>
         <Modal show={show} onHide={handleClose} size="lg" centered >
