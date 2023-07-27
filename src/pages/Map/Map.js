@@ -35,6 +35,14 @@ function Map(props) {
         setSelectedLatLng(LatLng);
         setSelectedYear(selectedYear)
         setSelectedMonth(selectedMonth)
+        const Date_time = new Date(parseInt(selectedYear), parseInt(selectedMonth) - 1);
+        const nextMonthDate = addMonths(Date_time, 1);
+        const formattedNextMonthDate = format(nextMonthDate, 'M/yyyy');
+        const formattedDate = format(Date_time, 'M/yyyy');
+        setSelectedMonth(formattedDate.split('/')[0])
+        setSelectedYear(formattedDate.split('/')[1])
+        setTimeLine([formattedDate, formattedNextMonthDate])
+
     }
     const handleDataTypeChange = (dataType) => {
         setSelectedDataType(dataType)

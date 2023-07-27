@@ -184,10 +184,10 @@ function Mapbody(props) {
               <GeoJSON
                 name={elementGeojson.properties.NAME_3}
                 data={elementGeojson.geometry}
-                weight="0.5"
+                weight="0.3"
                 color='black'
                 fillColor="blue"
-                fillOpacity={0.09} />
+                fillOpacity={0.07} />
             )
       }
       for (let i = 0; i < points.length; i++) {
