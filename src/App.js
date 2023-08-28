@@ -10,12 +10,11 @@ import { useState } from 'react';
 function App() {
     const [api, setApi] = useState({});
     const [dataYear, setDataYear] = useState({});
-    const currentDate = new Date();
-    const year = currentDate.getFullYear();
-    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-    const day = String(currentDate.getDate()).padStart(2, '0');
+    // const currentDate = new Date();
+    // const year = currentDate.getFullYear();
+    // const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    // const day = String(currentDate.getDate()).padStart(2, '0');
 
-    const formattedDate = `${year}-${month}-${day}`;
 
     const fecthAPi = (dataType, timeLine) => {
         if (dataType === '') {
@@ -23,9 +22,10 @@ function App() {
             return;
         }
         if (dataType === 'weatherApi') {
-            axios.get(`https://environment-admin.onrender.com/api/v1/open-api/openweathermap/airs/filter?fromdate=${formattedDate}&todate=${formattedDate}`)
-                // axios.get(`https://environment-admin.onrender.com/api/v1/open-api/openweathermap/airs/filter?fromdate=2023-5-21&todate=2023-5-21`)
+            // axios.get(`https://environment-admin.onrender.com/api/v1/open-api/openweathermap/airs/filter?fromdate=${formattedDate}&todate=${formattedDate}`)
+                axios.get(`https://environment-admin.onrender.com/api/v1/open-api/openweathermap/airs/filter?fromdate=2023-07-29&todate=2023-07-29`)
                 .then((response) => {
+                    console.log(1);
                     setApi(response.data);
                 })
                 .catch(error => console.error(error))

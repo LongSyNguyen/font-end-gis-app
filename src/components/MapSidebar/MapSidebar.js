@@ -1,6 +1,6 @@
 import "./MapSidebar.scss";
 import { Accordion, Form } from "react-bootstrap";
-import axios from 'axios';
+// import axios from 'axios';
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from 'react';
 import { Modal, Container, Row, Col, Button } from "react-bootstrap";
@@ -31,27 +31,27 @@ ChartJS.register(
 
 function MapSidebar(props) {
   const data_year = props.dataYear
-  const callApiYear = () => {
-    for (let index = 0; index < Object.keys(data_year).length; index++) {
-      let month = index + 1
-      if (month === 12) {
-        axios.get(`https://environment-admin.onrender.com/api/v1/stations/airs/filter?fromdate=${currentYear}-${12}&todate=${parseInt(currentYear) + 1}-${1}`)
-          .then((response) => {
+  // const callApiYear = () => {
+  //   for (let index = 0; index < Object.keys(data_year).length; index++) {
+  //     let month = index + 1
+  //     if (month === 12) {
+  //       axios.get(`https://environment-admin.onrender.com/api/v1/stations/airs/filter?fromdate=${currentYear}-${12}&todate=${parseInt(currentYear) + 1}-${1}`)
+  //         .then((response) => {
 
-            data_year[month] = response.data
-          })
-          .catch(error => console.error(error))
-      }
-      else {
-        axios.get(`https://environment-admin.onrender.com/api/v1/stations/airs/filter?fromdate=${currentYear}-${month}&todate=${parseInt(currentYear)}-${month + 1}`)
-          .then((response) => {
-            data_year[month] = response.data
-          })
-          .catch(error => console.error(error))
-      }
-    }
+  //           data_year[month] = response.data
+  //         })
+  //         .catch(error => console.error(error))
+  //     }
+  //     else {
+  //       axios.get(`https://environment-admin.onrender.com/api/v1/stations/airs/filter?fromdate=${currentYear}-${month}&todate=${parseInt(currentYear)}-${month + 1}`)
+  //         .then((response) => {
+  //           data_year[month] = response.data
+  //         })
+  //         .catch(error => console.error(error))
+  //     }
+  //   }
 
-  };
+  // };
   function getBackgroundColor(value) {
     if (value === 1) {
       return '#4cb84c';
@@ -116,7 +116,7 @@ function MapSidebar(props) {
           </thead>
           <tbody>
             {
-              props.dataYear[currentMonth].map((element, index) => {
+              props.dataYear[currentMonth].forEach((element, index) => {
                 if (
                   // eslint-disable-next-line
                   element.date.year == currentYear &&
@@ -539,7 +539,7 @@ function MapSidebar(props) {
           </thead>
           <tbody>
             {
-              props.dataYear[currentMonth].map((element, index) => {
+              props.dataYear[currentMonth].forEach((element, index) => {
                 if (
                   // eslint-disable-next-line
                   element.date.year == currentYear &&

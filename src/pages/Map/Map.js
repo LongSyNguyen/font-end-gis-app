@@ -71,12 +71,11 @@ function Map(props) {
     };
     useEffect(() => {
         props.callApi(selectedDataType, timeLine)
-        props.callApi("year", selectedYear)
+        // eslint-disable-next-line
     }, [selectedDataType, timeLine]);
 
     if (Object.keys(api).length === 0) {
         props.callApi(selectedDataType, timeLine)
-        props.callApi("year", selectedYear)
         return (
             <div className="d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
                 <span className="sr-only">Loading...</span>
